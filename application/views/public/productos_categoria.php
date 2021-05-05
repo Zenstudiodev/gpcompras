@@ -1,22 +1,35 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Carlos
- * Date: 21/01/2018
- * Time: 2:12 PM
+ * User: Latios-ws
+ * Date: 12/06/2020
+ * Time: 2:24 PM
  */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $this->layout('public/public_master');
-
-
 ?>
-<?php $this->start('banner') ?>
-<?php if (isset($header_banners)) { ?>
-    <hr>
+
+<?php $this->start('css_p') ?>
+
+<?php $this->stop() ?>
+
+<?php $this->start('page_content') ?>
+
+
+<section>
     <div class="container">
         <div class="row">
-            <div class="col-12 col-xl-3">
+            <div class="col-12 col-xl-3 side_col">
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar"
+                           aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
                 <h3 class="titulo_lineas">Categorías</h3>
                 <ul class="list-group">
                     <?php
@@ -61,114 +74,28 @@ $this->layout('public/public_master');
                     ?>
 
                 </ul>
-
+                <hr>
             </div>
-            <div class="col-12 col-xl-9" >
-                <div id="banner_container">
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-
-                            <?php
-                            $start_banner = 0;
-                            foreach ($header_banners->result() as $banner) { ?>
-                                <div class="carousel-item <?php if ($start_banner < 1) {
-                                    echo 'active';
-                                } ?> ">
-                                    <a href="<?php echo $banner->link_bh ?>" target="_blank"
-                                       banner_id="<?php echo $banner->id_bh; ?>">
-                                        <img src="<?php echo base_url() . 'ui/public/imagenes/banners/' . $banner->imagen_bh . '.jpg' ?>"
-                                             class="d-block w-100">
-                                    </a>
-                                </div>
-
-                                <?php $start_banner++ ?>
-
-
-                            <?php } ?>
+            <div class="col-12 col-xl-9">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <br>
+                            <br>
+                            <br>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                           data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                           data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-<?php } ?>
-
-
-<?php $this->stop() ?>
-
-
-<?php $this->start('page_content') ?>
-    <div id="iconos_top">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="iconos_top_card">
-                        <i class="fas fa-truck"></i>
-                        <h3>Politicas de envío
-                            <small></small>
-                        </h3>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="iconos_top_card">
-                        <i class="fas fa-headset"></i>
-                        <h3>Servicio al cliente
-                            <small></small>
-                        </h3>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="iconos_top_card">
-                        <i class="fas fa-certificate"></i>
-                        <h3>Garantía
-                            <small></small>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="ofertas_block">
-        <div class="container">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="productos_front_page">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <?php if ($productos) { ?>
+                    <?php //print_contenido($productos->result()); ?>
+                    <?php if ($productos_sub_categoria) { ?>
                         <div class="row" id="productos_list_container">
                             <?php
-                            foreach ($productos->result() as $producto) {
+                            foreach ($productos_sub_categoria->result() as $producto) {
 
                                 //obtenemos imagenes del producto
                                 $imagenes_producto = get_imgenes_producto_public($producto->producto_id);
                                 ?>
-                                <div class="col-12 col-md-3 product_col_categorias">
+                                <div class="col-12 col-md-4 product_col_categorias">
                                     <div class="card product_card">
 
                                         <?php
@@ -210,12 +137,15 @@ $this->layout('public/public_master');
                     <? } else { ?>
                         <h3>No hay productos</h3>
                     <? } ?>
+
                 </div>
             </div>
         </div>
-
     </div>
-    <div id="home_parallax">
+</section>
 
-    </div>
+
 <?php $this->stop() ?>
+<?php $this->start('js_p') ?>
+<?php $this->stop() ?>
+

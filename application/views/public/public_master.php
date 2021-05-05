@@ -6,22 +6,263 @@
  * Time: 3:36 PM
  */
 ?>
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="en">
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="<?php echo base_url()?>/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,800;1,100&family=Roboto:wght@100;300;400;500;700&display=swap"
+          rel="stylesheet">
+    <!-- Place your kit's code here -->
+    <script src="https://kit.fontawesome.com/fd7d02f666.js" crossorigin="anonymous"></script>
+    <?php echo $this->section('css_p') ?>
+    <link href="<?php echo base_url() ?>/ui/public/css/style.css" rel="stylesheet">
+    <title>GP COMPRAS</title>
 </head>
 <body>
-<h1>Hello, world!</h1>
+<section id="header">
+    <div id="top_info">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-4">
+                    <a href="tel:+50222945656"> <i aria-hidden="true" class="fas fa-mobile-alt"></i> PBX: (502)
+                        2294-5656</a>&nbsp;
+                </div>
+                <div class="col-12 col-md-3">
+                    <a href="mailto:info@gpautos.ne"> <i aria-hidden="true" class="fas fa-envelope"></i>
+                        info@gpautos.net</a>
+                </div>
+                <div class="col-12 col-md-4">
+                    <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                    2da Avenida 20-29 Zona 10.
+                </div>
+                <div class="col-12 col-md-1">
+                    <div class="elementor-social-icons-wrapper">
+                        <a href="https://www.facebook.com/gpcomprasnet-234506886601172"
+                           class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-d733b61"
+                           target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                           class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-9dc26c9"
+                           target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main_menu_container" class="inner_menu_container">
+        <div class="container">
+            <div class="row">
+                <div class="col-7 col-md-12">
+                    <nav class="navbar navbar-expand-lg ">
+                        <a href="<?php echo base_url() ?>">
+                            <img src="<?php echo base_url() ?>/ui/public/imagenes/logo.png">
+                        </a>
 
-<!-- jQuery first, then Tether, then Bootstrap JS. -->
-<script src="<?php echo base_url()?>/vendor/components/jquery/jquery.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="<?php echo base_url()?>/vendor/twbs/bootstrap/dist/js/bootstrap.min.js" ></script>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#main_menu" aria-controls="main_menu"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse justify-content-end" id="main_menu">
+                            <ul class="navbar-nav ">
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="/">Inicio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo base_url() ?>productos/categoria/">Productos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/#servicioos_container">Nosotros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <div id="iconos_menu">
+                                        <a href="#">
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                        <a href="<?php echo base_url()?>user/login">
+                                            <i class="fas fa-user"></i>
+                                        </a>
+                                        <a href="<?php echo base_url()?>carrito/ver">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <?php echo $this->section('banner') ?>
+    <!-- /.content-wrapper -->
+
+
+</section>
+<section id="main_body">
+    <!-- Content Wrapper. Contains page content -->
+    <?php echo $this->section('page_content') ?>
+    <!-- /.content-wrapper -->
+</section>
+<footer>
+    <div id="footer_info">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="first" class="first-widget footer-widget">
+                        <aside id="followmewidget-3" class="widget widgets-follow-us">
+                            <div class="title-outer"><h3 class="widget-title">Redes y forma de pago</h3></div>
+                            <div id="follow_us" class="follow-us">
+                                <ul class="toggle-block">
+                                    <li>
+                                        <a href="#" title="Facebook" class="facebook icon"><i
+                                                    class="fa fa-facebook"></i></a>
+                                        <a href="#" title="Twitter" class="twitter icon"><i
+                                                    class="fa fa-whatsapp"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="second" class="second-widget footer-widget">
+                        <aside id="footercontactuswidget-2" class="widget widgets-footercontact">
+                            <div class="title-outer"><h3 class="widget-title">información de contacto</h3></div>
+                            <ul class="toggle-block">
+                                <li>
+                                    <div class="contact_wrapper">
+                                        <div class="address">
+                                            <div class="address_content">
+                                                <div class="contact_address">2da Avenida 20-29 Zona 10.
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="phone">
+                                            <div class="contact_phone"> (+502) 2294-5656</div>
+
+                                        </div>
+                                        <div class="email">
+                                            <div class="contact_email"><a href="mailto:info@gpcasas.net">
+                                                    info@gpcasas.net</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="third" class="third-widget footer-widget">
+                        <aside id="staticlinkswidget-3" class="widget widgets-static-links">
+                            <div class="title-outer"><h3 class="widget-title">Enlaces de cuenta</h3></div>
+                            <ul class="toggle-block">
+                                <li>
+                                    <div class="static-links-list">
+						<span><a href="#">
+				Mi cuenta</a></span>
+
+                                        <span><a href="#">
+				Mis ordenes</a></span>
+
+                                        <span><a href="#">
+				Devoluciones</a></span>
+
+                                        <span><a href="#">
+				Politicas de uso</a></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="fourth" class="fourth-widget footer-widget">
+                        <aside id="newsletterwidget-2" class="widget widget_newsletterwidget">
+                            <div class="title-outer"><h3 class="widget-title">Boletín</h3></div>
+                            <div class="tnp tnp-widget toggle-block">
+                                <form method="post" action=""
+                                      onsubmit="return newsletter_check(this)">
+
+                                    <input type="hidden" name="nlang" value="">
+                                    <input type="hidden" name="nr" value="widget">
+                                    <input type="hidden" name="nl[]" value="0">
+                                    <div class="input-group mb-3">
+                                        <input class="tnp-email form-control"
+                                               type="email"
+                                               name="ne"
+                                               required="">
+                                        <div class="input-group-append">
+                                            <input class="tnp-submit btn btn-success"
+                                                   type="submit"
+                                                   value="Subscribe">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer_links">
+        <div class="footer-bottom-container">
+            <div class="footer-bottom-left">
+
+                <div class="footer-menu-links">
+                    <ul id="menu-mainmenu-2" class="footer-menu">
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-212 current_page_item menu-item-7179">
+                            <a href="#"
+                               aria-current="page">Inicio</a></li>
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-8502">
+                            <a href=#>Productos</a></li>
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7189">
+                            <a href="#">Nosotros</a></li>
+                    </ul>
+                </div><!-- #footer-menu-links -->
+
+                <div class="site-info"> 2020 GP COMPRAS</div>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<?php echo $this->section('js_p') ?>
 </body>
-</html>
+<!--<img src="<?php /*echo base_url(); */ ?>ui/imagenes/dise%f1o1.jpg">-->
+
+
+
+

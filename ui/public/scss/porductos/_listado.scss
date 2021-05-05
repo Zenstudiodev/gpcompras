@@ -1,0 +1,29 @@
+
+#productos_list_container{
+  .titulo_producto_list{
+    margin: 0;
+    text-decoration: none;
+    line-height: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 0 0 8px;
+    text-transform: capitalize;
+  }
+  .product_card{
+    a{
+      color: $negro;
+    }
+    .btn{
+      color: $blanco;
+      background: $naranja;
+      border: none;
+      border-radius: 0;
+      border-color: unset;
+
+    }
+  }
+}
+
+
+
+

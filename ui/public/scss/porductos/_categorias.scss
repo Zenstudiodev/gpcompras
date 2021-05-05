@@ -1,0 +1,26 @@
+
+.listado_categorias {
+  .card {
+    text-align: center;
+  }
+}
+
+.productos_list_container {
+
+}
+
+h2#titulo_producto_list {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 10px;
+}
+
+.product_card {
+ margin-bottom: 15px;
+  .image_list_holder {
+    height: 200px;
+    overflow: hidden;
+  }
+}
