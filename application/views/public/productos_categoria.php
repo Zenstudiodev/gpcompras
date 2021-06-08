@@ -22,14 +22,16 @@ $this->layout('public/public_master');
     <div class="container">
         <div class="row">
             <div class="col-12 col-xl-3 side_col">
-
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar"
-                           aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+                <form name="buscar_form" action="<?php echo base_url(); ?>productos/buscar_producto" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscar" name="buscar_input" value="<?php echo $keyword; ?>"
+                               aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i
+                                        class="fas fa-search"></i></button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <h3 class="titulo_lineas">Categorías</h3>
                 <ul class="list-group">
                     <?php
@@ -51,9 +53,11 @@ $this->layout('public/public_master');
                                             <?php echo mb_strtolower($categoria->producto_categoria); ?>
                                         </a>
 
-                                        <div class="dropdown-menu categorias_dropdown_container nombre_lineas_menu" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-menu categorias_dropdown_container nombre_lineas_menu"
+                                             aria-labelledby="dropdownMenuLink">
                                             <?php foreach ($sub_catecorias as $sub_categoria) { ?>
-                                                <a class="dropdown-item" href="<?php echo base_url().'productos/listado_productos_categoria/'.$categoria->producto_categoria.'/'. $sub_categoria->producto_sub_categoria;?>">
+                                                <a class="dropdown-item"
+                                                   href="<?php echo base_url() . 'productos/listado_productos_categoria/' . $categoria->producto_categoria . '/' . $sub_categoria->producto_sub_categoria; ?>">
                                                     <?php echo mb_strtolower($sub_categoria->producto_sub_categoria); ?>
                                                 </a>
                                             <?php } ?>

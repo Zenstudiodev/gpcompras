@@ -26,9 +26,7 @@ class User extends Base_Controller
     }
     public function registro()
     {
-
         $data['title'] = $this->lang->line('create_user_heading');
-
 
         $tables = $this->config->item('tables', 'ion_auth');
         $identity_column = $this->config->item('identity', 'ion_auth');
@@ -48,33 +46,6 @@ class User extends Base_Controller
         $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
 
-        if (isset($_POST['guardar_registro'])) {
-            print_contenido($_POST);
-            $url = 'https://www.google.com/recaptcha/api/siteverify';
-            $captcha_data = array(
-                'secret' => '6Le2pcMUAAAAAFe2B9FPQ96nAoAhD_Pl77h5qrU6',
-                'response' => $_POST['token'],
-                'remoteip'=> $_SERVER['REMOTE_ADDR']
-            );
-            $options=array(
-                'http'=>array(
-                    'header'=>'Content-Type: application/x-www-form-urlencoded\r\n',
-                    'method'=>'POST',
-                    'content'=>http_build_query($captcha_data)
-                )
-            );
-            $context = stream_context_create($options);
-            $response = file_get_contents($url, false, $context);
-
-            $res = json_decode($response, true);
-            if($res['success']==true){
-
-            }else{
-                //fallo recargar
-                redirect(base_url().'user/registro');
-            }
-        }
-
         if ($this->form_validation->run() === TRUE) {
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
@@ -91,7 +62,7 @@ class User extends Base_Controller
             // check to see if we are creating the user
             // redirect them back to the admin page
             $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect(base_url()."user/login", 'refresh');
+            redirect("User/login", 'refresh');
         } else {
             // display the create user form
             // set the flash data error message if there is one
@@ -99,64 +70,64 @@ class User extends Base_Controller
 
             $data['first_name'] = array(
                 'name' => 'first_name',
-                'class' => 'browser-default form-control',
                 'id' => 'first_name',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('first_name'),
             );
             $data['last_name'] = array(
                 'name' => 'last_name',
                 'id' => 'last_name',
-                'class' => 'browser-default form-control',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('last_name'),
             );
             $data['identity'] = array(
                 'name' => 'identity',
                 'id' => 'identity',
-                'class' => 'browser-default form-control',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('identity'),
             );
             $data['email'] = array(
                 'name' => 'email',
                 'id' => 'email',
-                'class' => 'browser-default form-control',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('email'),
             );
             $data['company'] = array(
                 'name' => 'company',
                 'id' => 'company',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('company'),
             );
             $data['phone'] = array(
                 'name' => 'phone',
                 'id' => 'phone',
-                'class' => 'browser-default form-control',
                 'type' => 'text',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('phone'),
             );
             $data['password'] = array(
                 'name' => 'password',
                 'id' => 'password',
-                'class' => 'browser-default form-control',
                 'type' => 'password',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('password'),
             );
             $data['password_confirm'] = array(
                 'name' => 'password_confirm',
                 'id' => 'password_confirm',
-                'class' => 'browser-default form-control',
                 'type' => 'password',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('password_confirm'),
             );
 
-            if ($this->session->flashdata('message')) {
-                $data['message'] = $this->session->flashdata('message');
-            }
+            // $this->_render_page('auth/create_user', $this->data);
             $data['sin_banner'] = 1;
+
             echo $this->templates->render('public/registro', $data);
         }
 

@@ -78,6 +78,11 @@ class Productos extends Base_Controller
         $sub_categoria = urldecode($this->uri->segment(4));
         $data['productos_sub_categoria'] = $this->Productos_model->get_productos_sub_categoria($categoria, $sub_categoria);
         $data['categorias'] = $this->Productos_model->get_categorias();
+        if($keyword= $this->input->post('buscar_input')){
+            $data['keyword'] = $keyword;
+        }else{
+            $data['keyword'] = '';
+        }
         echo $this->templates->render('public/productos_categoria', $data);
     }
 
@@ -549,4 +554,23 @@ class Productos extends Base_Controller
 
 
     }
+    //buscar
+    function buscar_producto(){
+        $keyword= $this->input->post('buscar_input');
+        if($keyword){
+            $productos = $this->Productos_model->buscar($keyword);
+            $data['keyword'] = $keyword;
+            $data['productos_sub_categoria'] = $productos;
+            $data['categorias'] = $this->Productos_model->get_categorias();
+            //$data['catalogos_list'] = $this->Productos_model->get_catalogos();
+            //print_contenido($productos->result());
+            echo $this->templates->render('public/productos_categoria', $data);
+        }else{
+            redirect(base_url());
+        }
     }
+
+
+
+}
+

@@ -53,5 +53,13 @@ function get_imgenes_producto_public($producto_id)
     $imagenes_producto = $ci->Productos_model->get_fotos_de_producto_by_id($producto_id);
     return $imagenes_producto;
 }
+function costo_envio_producto($producto_id){
+    $ci =& get_instance();
+    $datos_de_producto = $ci->Productos_model->get_info_producto($producto_id);
+    if($datos_de_producto){
+        $datos_de_producto = $datos_de_producto->row();
+    }
+    return $datos_de_producto->producto_envio_capital;
+}
 
 ?>

@@ -9,6 +9,8 @@
 
 $this->layout('public/public_master');
 $ci =& get_instance();
+
+$costo_envio =0;
 ?>
 
 
@@ -41,6 +43,8 @@ $ci =& get_instance();
 
             <?php foreach ($contenido_carrito as $items): ?>
                 <?php //print_contenido($items)?>
+            <?php $costo_envio_producto = costo_envio_producto($items['id']);?>
+            <?php $costo_envio= $costo_envio +$costo_envio_producto; ?>
 
                 <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
@@ -76,7 +80,7 @@ $ci =& get_instance();
 
             <tr>
                 <td colspan="3"> </td>
-                <td class="right"><strong>Total</strong></td>
+                <td class="right"><strong>Sub total</strong></td>
                 <td class="right">Q.<?php echo $ci->cart->format_number($ci->cart->total()); ?></td>
             </tr>
 
@@ -166,6 +170,27 @@ $ci =& get_instance();
         </div>
 
     <?php }else{ ?>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td>Sub total</td>
+                    <td>Q.<?php echo $ci->cart->format_number($ci->cart->total()); ?></td>
+                </tr>
+                <tr>
+                    <td>Costo de envio</td>
+                    <td>Q.<?php echo number_format($costo_envio, 2, '.', ','); ?></td>
+                </tr>
+                <?php
+                $total_con_envio = floatval($ci->cart->total()) + $costo_envio;
+                ?>
+                <tr>
+                    <td>Total</td>
+                    <td>Q.<?php echo number_format($total_con_envio, 2, '.', ','); ?></td>
+                </tr>
+            </table>
+        </div>
+
         <button type="submit" class="btn btn-success">Generar pedido</button>
         <!--<p><a class="btn btn-success" href="<?php /*echo base_url()*/?>index.php/Productos/crear_predido">Generar pedido</a></p>-->
     <?php  }?>

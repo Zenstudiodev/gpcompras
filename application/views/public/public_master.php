@@ -26,6 +26,7 @@
 </head>
 <body>
 <section id="header">
+
     <div id="top_info">
         <div class="container">
             <div class="row align-items-center">
@@ -86,7 +87,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <div id="iconos_menu">
-                                        <a href="#">
+                                        <a href="#" data-toggle="modal" data-target="#exampleModal">
                                             <i class="fas fa-search"></i>
                                         </a>
                                         <a href="<?php echo base_url()?>user/login">
@@ -102,6 +103,30 @@
                             </ul>
                         </div>
                     </nav>
+                    <!-- Button trigger modal -->
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form name="buscar_form" action="<?php echo base_url();?>productos/buscar_producto" method="post">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Buscar</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input class="form-control" type="text" name="buscar_input" id="buscar_input">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,9 +156,9 @@
                             <div id="follow_us" class="follow-us">
                                 <ul class="toggle-block">
                                     <li>
-                                        <a href="#" title="Facebook" class="facebook icon"><i
+                                        <a href="https://www.facebook.com/gpcomprasnet-234506886601172" title="Facebook" class="facebook icon" target="_blank"><i
                                                     class="fa fa-facebook"></i></a>
-                                        <a href="#" title="Twitter" class="twitter icon"><i
+                                        <a href="https://wa.me/50251677220" title="Whatsapp" class="whatsapp icon" target="_blank"><i
                                                     class="fa fa-whatsapp"></i></a>
                                     </li>
                                 </ul>

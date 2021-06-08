@@ -400,4 +400,15 @@ class Productos_model extends CI_Model
         $query = $this->db->update('pedidos', $datos);
     }
 
+    //buscar
+    function buscar($keyword){
+        $this->db->like('producto_nombre', $keyword);
+        $this->db->from('productos');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+
+    }
+
+
 }
