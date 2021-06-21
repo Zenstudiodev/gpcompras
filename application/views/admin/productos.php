@@ -58,7 +58,7 @@ $this->layout('admin/admin_master');
                                 <td><?php echo $producto->producto_precio; ?></td>
                                 <td>
                                     <a class="btn btn-success"
-                                       href="<?php echo base_url() . 'productos/ver/' . $producto->producto_id; ?>">Revisar
+                                       href="<?php echo base_url() . 'productos/admin_revisar_producto/' . $producto->producto_id; ?>">Revisar
                                         producto</a>
                                     <a class="btn btn-info"
                                        href="<?php echo base_url() . 'admin/editar_producto/' . $producto->producto_id; ?>">Editar

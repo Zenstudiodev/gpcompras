@@ -570,6 +570,12 @@ class Productos extends Base_Controller
         }
     }
 
+    function admin_revisar_producto(){
+        $id_producto = $this->uri->segment(3);
+        $data['producto'] = $this->Productos_model->get_info_producto($id_producto);
+        echo $this->templates->render('admin/admin_revisar_producto', $data);
+    }
+
 
 
 }
