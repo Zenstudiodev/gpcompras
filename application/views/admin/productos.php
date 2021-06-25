@@ -32,7 +32,8 @@ $this->layout('admin/admin_master');
     <hr>
     <div class="row">
         <div class="col">
-            <a class="btn waves-effect waves-light btn-success" href="<?php echo base_url()?>admin/crear_producto">Crear producto</a>
+            <a class="btn waves-effect waves-light btn-success" href="<?php echo base_url() ?>admin/crear_producto">Crear
+                producto</a>
         </div>
     </div>
     <hr>
@@ -47,6 +48,7 @@ $this->layout('admin/admin_master');
                             <th>Nombre producto</th>
                             <th>Precio</th>
                             <th>Acción</th>
+                            <th>Categoría actualizada</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,6 +68,13 @@ $this->layout('admin/admin_master');
                                     <a class="btn btn-danger"
                                        href="<?php echo base_url() . 'productos/borrar_producto/' . $producto->producto_id; ?>">Borrar
                                         producto</a>
+                                </td>
+                                <td>
+                                    <?php if ($producto->producto_categoria_sub_categoria == '0') { ?>
+                                        <a class="btn btn-danger"></a>
+                                    <?php } else { ?>
+                                        <a class="btn btn-success"></a>
+                                    <?php } ?>
                                 </td>
 
                             </tr>

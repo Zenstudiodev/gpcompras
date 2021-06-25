@@ -19,14 +19,15 @@ class Admin extends Base_Controller
     }
 
     function index()
-    {if (!$this->ion_auth->logged_in()) {
-        // redirect them to the login page
-        redirect(base_url() . 'User/login');
-    }
+    {
+        if (!$this->ion_auth->logged_in()) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/login');
+        }
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
@@ -36,12 +37,15 @@ class Admin extends Base_Controller
 
     //productos
 
-    public function listado_productos(){
+    public function listado_productos()
+    {
         $data['productos'] = $this->Productos_model->get_productos();
         echo $this->templates->render('admin/productos', $data);
     }
 
-    public function crear_producto(){
+    //categorias
+    public function categorias()
+    {
         if (!$this->ion_auth->logged_in()) {
             // redirect them to the login page
             redirect(base_url() . 'User/login');
@@ -49,7 +53,64 @@ class Admin extends Base_Controller
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/perfil');
+        }
+        $data = array();
+        $data['categorias'] = $this->Productos_model->get_categorias_n();
+        echo $this->templates->render('admin/admin_categorias', $data);
+    }
+
+    public function crear_categoria()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/login');
+        }
+
+        $user_id = $this->ion_auth->get_user_id();
+
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/perfil');
+        }
+        $data = array();
+        $data['categorias'] = $this->Productos_model->get_categorias_n();
+        echo $this->templates->render('admin/admin_crear_categoria', $data);
+    }
+
+    public function guardar_categoria()
+    {
+        //print_contenido($_POST);
+        $categoria_data = array(
+            'categoria_padre' => $this->input->post('categoria_padre'),
+            'nombre_categoria' => $this->input->post('nombre_categoria'),
+        );
+        //print_r($post_data);
+        $this->Productos_model->guardar_categoria_sub_categoria($categoria_data);
+
+        redirect(base_url() . 'admin/categorias/');
+
+
+    }
+    public function borrar_categoria(){
+        $categoria_id = $this->uri->segment(3);
+        $this->Productos_model->borrar_categoria_sub_categoria($categoria_id);
+        redirect(base_url() . 'admin/categorias/');
+
+    }
+
+    public function crear_producto()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/login');
+        }
+
+        $user_id = $this->ion_auth->get_user_id();
+
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
@@ -57,8 +118,10 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/crear_producto', $data);
     }
-    public function guardar_producto(){
-       // print_contenido($_POST);
+
+    public function guardar_producto()
+    {
+        // print_contenido($_POST);
 
         $producto_data = array(
             'producto_codigo' => $this->input->post('producto_codigo'),
@@ -83,7 +146,9 @@ class Admin extends Base_Controller
             redirect(base_url() . 'admin/subir_fotos/' . $producto_id);
         }
     }
-    public function editar_producto(){
+
+    public function editar_producto()
+    {
         if (!$this->ion_auth->logged_in()) {
             // redirect them to the login page
             redirect(base_url() . 'User/login');
@@ -91,22 +156,26 @@ class Admin extends Base_Controller
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
         $producto_id = $this->uri->segment(3);
         $data['producto_id'] = $producto_id;
         //datos de la propiedad
+        $data['categorias'] = $this->Productos_model->get_categorias_n();
         $data['producto'] = $this->Productos_model->get_info_producto($producto_id);
 
         echo $this->templates->render('admin/editar_producto', $data);
     }
-    public function actualizar_producto(){
+
+    public function actualizar_producto()
+    {
         $producto_data = array(
             'producto_id' => $this->input->post('producto_id'),
             'producto_codigo' => $this->input->post('producto_codigo'),
             'producto_nombre' => $this->input->post('producto_nombre'),
+            'producto_categoria_sub_categoria' => $this->input->post('producto_categoria_sub_categoria'),
             'producto_categoria' => $this->input->post('producto_categoria'),
             'producto_sub_categoria' => $this->input->post('producto_sub_categoria'),
             'producto_marca' => $this->input->post('producto_marca'),
@@ -125,8 +194,14 @@ class Admin extends Base_Controller
 
         redirect(base_url() . 'admin/listado_productos/' . $producto_id);
     }
-    public function desactivar_producto(){}
-    public function borrar_producto(){}
+
+    public function desactivar_producto()
+    {
+    }
+
+    public function borrar_producto()
+    {
+    }
 
     public function subir_fotos()
     {
@@ -137,7 +212,7 @@ class Admin extends Base_Controller
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
@@ -155,6 +230,7 @@ class Admin extends Base_Controller
         echo $this->templates->render('admin/subir_imagenes_propiedad', $data);
 
     }
+
     public function guardar_imagen()
     {
         // print_contenido($_FILES);
@@ -253,6 +329,7 @@ class Admin extends Base_Controller
 
         }
     }
+
     public function borrar_imagen()
     {
 
@@ -273,13 +350,13 @@ class Admin extends Base_Controller
 
             //borrado de imagen
             if (file_exists('/home2/gpautos/gpcompras-/upload/productos_img/' . $nombre_imagen)) {
-               // echo 'imagen existe';
+                // echo 'imagen existe';
                 if (unlink('/home2/gpautos/gpcompras-/upload/productos_img/' . $nombre_imagen)) {
                     $this->session->set_flashdata('mensaje', 'se borro la imagen');
                     //echo 'se borro';
                     redirect(base_url() . 'admin/subir_fotos/' . $data['prducto_id']);
                 } else {
-                   // echo 'no se borro';
+                    // echo 'no se borro';
                 }
 
             } else {
@@ -296,17 +373,19 @@ class Admin extends Base_Controller
     }
 
 
-
     //pedidos
-    public function listado_pedidos(){
+    public function listado_pedidos()
+    {
         $data['pedidos'] = $this->Productos_model->get_pedidos();
         echo $this->templates->render('admin/pedidos', $data);
     }
-    public function revisar_pedido(){
+
+    public function revisar_pedido()
+    {
         $id_pedido = $this->uri->segment(3);
         $data['datos_pedido'] = $this->Productos_model->get_pedido_by_id($id_pedido);
         $data['datos_envio'] = $this->Productos_model->get_direccion_pedido($id_pedido);
-        if($data['datos_pedido']){
+        if ($data['datos_pedido']) {
             $pedido = $data['datos_pedido']->row();
             $data['cliente'] = $this->User_model->get_user_by_id($pedido->user_id_pedido);
             $data['productos_pedido'] = $this->Productos_model->get_productos_pedido($id_pedido);
@@ -315,9 +394,11 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/revisar_pedido', $data);
     }
-    public function actualizar_pedido(){
-        $id_pedido= $this->input->post('id_pedido');
-        $estado_pedido= $this->input->post('estado_pedido');
+
+    public function actualizar_pedido()
+    {
+        $id_pedido = $this->input->post('id_pedido');
+        $estado_pedido = $this->input->post('estado_pedido');
 
         $datos_pedido = array(
             'pedido_id' => $id_pedido,
@@ -325,7 +406,7 @@ class Admin extends Base_Controller
         );
         $this->Productos_model->actualizar_pedido($datos_pedido);
 
-        redirect(base_url().'index.php/admin/listado_pedidos');
+        redirect(base_url() . 'index.php/admin/listado_pedidos');
     }
 
 
@@ -342,18 +423,23 @@ class Admin extends Base_Controller
         }
 
     }
+
     public function banners_inactivos()
     {
     }
+
     public function crear_banner()
     {
     }
+
     public function guardar_banner()
     {
     }
+
     public function desactivar_banner()
     {
     }
+
     public function crear_banner_header()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -363,7 +449,7 @@ class Admin extends Base_Controller
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
@@ -375,6 +461,7 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/admin_crear_banner_header', $data);
     }
+
     public function guardar_banner_header()
     {
         // print_contenido($_POST);
@@ -415,6 +502,7 @@ class Admin extends Base_Controller
 
 
     }
+
     public function banners_header()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -424,7 +512,7 @@ class Admin extends Base_Controller
 
         $user_id = $this->ion_auth->get_user_id();
 
-        if (!$this->ion_auth->in_group('administracion',$user_id)){
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
             // redirect them to the login page
             redirect(base_url() . 'User/perfil');
         }
@@ -432,6 +520,7 @@ class Admin extends Base_Controller
         $data['banners'] = $this->Banners_model->banners_header();
         echo $this->templates->render('admin/admin_banners_header', $data);
     }
+
     public function editar_banner_header()
     {
         //id banner
@@ -439,6 +528,7 @@ class Admin extends Base_Controller
         $data['banner_data'] = $this->Banners_model->banner_header_data($data['id_banner']);
         echo $this->templates->render('admin/admin_editar_banner_header', $data);
     }
+
     public function actualizar_banner_header()
     {
         /* echo '<pre>';
@@ -459,6 +549,7 @@ class Admin extends Base_Controller
         $this->Banners_model->actualizar_banners_header($post_data);
         redirect(base_url() . 'admin/banners_header/');
     }
+
     public function actualizar_banner()
     {
         $post_data = array(
@@ -478,34 +569,44 @@ class Admin extends Base_Controller
 
 
     //productos de portada
-    public function productos_portada(){
+    public function productos_portada()
+    {
         $data['productos_portada'] = $this->Productos_model->get_productos_portada();
         $data['productos_no_portada'] = $this->Productos_model->get_productos_no_portada();
 
         echo $this->templates->render('admin/productos_portada', $data);
     }
-    public function asignar_portada(){
+
+    public function asignar_portada()
+    {
         $codigo_producto = $this->uri->segment(3);
         $this->Productos_model->asignar_producto_portada($codigo_producto);
-        redirect(base_url().'index.php/admin/productos_portada');
+        redirect(base_url() . 'index.php/admin/productos_portada');
     }
-    public function quitar_portada(){
+
+    public function quitar_portada()
+    {
         $codigo_producto = $this->uri->segment(3);
         $this->Productos_model->quitar_producto_portada($codigo_producto);
-        redirect(base_url().'index.php/admin/productos_portada');
+        redirect(base_url() . 'index.php/admin/productos_portada');
     }
-    public function iconos_lineas(){
+
+    public function iconos_lineas()
+    {
         $data['lineas_productos'] = $this->Productos_model->get_lineas();
 
         echo $this->templates->render('admin/iconos_lineas', $data);
     }
-    public function asignar_icono_linea (){
+
+    public function asignar_icono_linea()
+    {
         $linea = $this->uri->segment(3);
         $data['linea'] = $linea;
         echo $this->templates->render('admin/asignar_icono_linea', $data);
     }
 
-    public function  guardar_icono_linea(){
+    public function guardar_icono_linea()
+    {
         // print_contenido($_POST);
 
         $titulo = $this->input->post('linea');
@@ -541,7 +642,8 @@ class Admin extends Base_Controller
 
     }
 
-    public function borrar_icono_linea(){
+    public function borrar_icono_linea()
+    {
         $linea = $this->uri->segment(3);
 
         $datos_imagen = $this->Productos_model->linea_tiene_icono($linea);
@@ -554,9 +656,9 @@ class Admin extends Base_Controller
 
             //borrado de imagen
             //echo '/home/corpjcgd/public_html/new/upload/iconos/lineas/' . $nombre_imagen.'.png';
-            if (file_exists('/home/corpjcgd/public_html/new/upload/iconos/lineas/' . $nombre_imagen.'.png')) {
+            if (file_exists('/home/corpjcgd/public_html/new/upload/iconos/lineas/' . $nombre_imagen . '.png')) {
                 // echo 'imagen existe';
-                if (unlink('/home/corpjcgd/public_html/new/upload/iconos/lineas/' . $nombre_imagen.'.png')) {
+                if (unlink('/home/corpjcgd/public_html/new/upload/iconos/lineas/' . $nombre_imagen . '.png')) {
                     $this->session->set_flashdata('mensaje', 'se borro el icono');
                     redirect(base_url() . 'index.php/admin/iconos_lineas');
                 } else {
@@ -575,7 +677,9 @@ class Admin extends Base_Controller
 
         }
     }
-    public function actualizar_icono_linea(){
+
+    public function actualizar_icono_linea()
+    {
 
     }
 

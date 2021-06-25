@@ -184,22 +184,28 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>admin/categorias" aria-expanded="false">
+                            <i data-feather="shopping-bag"  class="feather-icon"></i>
+                            <span class="hide-menu">Categoría y sub categorías</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>admin/listado_productos" aria-expanded="false">
                             <i data-feather="shopping-bag"  class="feather-icon"></i>
-                            <span lass="hide-menu">Productos</span>
+                            <span class="hide-menu">Productos</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>admin/listado_pedidos" aria-expanded="false">
                             <i data-feather="edit"  class="feather-icon"></i>
-                            <span lass="hide-menu">Pedidos</span>
+                            <span class="hide-menu">Pedidos</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>admin/banners_header" aria-expanded="false">
                             <i data-feather="shopping-bag"  class="feather-icon"></i>
-                            <span lass="hide-menu">Banners</span>
+                            <span class="hide-menu">Banners</span>
                         </a>
                     </li>
                     <!--<li class="list-divider"></li>

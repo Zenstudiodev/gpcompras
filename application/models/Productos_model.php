@@ -14,6 +14,36 @@ class Productos_model extends CI_Model
         $this->load->database();
     }
 
+
+
+    //categorias
+    public function get_categorias_n(){
+        $query = $this->db->get('categorias');
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
+    public function obtener_subcategorias($categoria_id){
+
+        $this->db->where('parent_id', $categoria_id);
+        $query = $this->db->get('categorias');
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
+    public function guardar_categoria_sub_categoria($data){
+        $categoria = array(
+            'parent_id' => $data['categoria_padre'],
+            'nombre_categoria' => $data['nombre_categoria'],
+        );
+        // insertamon en la base de datos
+        $this->db->insert('categorias', $categoria);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+    public function borrar_categoria_sub_categoria($categoria_id){
+        $this->db->where('categoria_id', $categoria_id);
+        $this->db->delete('categorias');
+    }
+
     public function limpiar_tabla()
     {
         $this->db->truncate('productos');
@@ -136,6 +166,7 @@ class Productos_model extends CI_Model
             //'producto_id' => $data['producto_id'],
             'producto_nombre' => $data['producto_nombre'],
             'producto_codigo' => $data['producto_codigo'],
+            'producto_categoria_sub_categoria' => $data['producto_categoria_sub_categoria'],
             'producto_categoria' => $data['producto_categoria'],
             'producto_sub_categoria' => $data['producto_sub_categoria'],
             //'producto_material' => $data['producto_material'],

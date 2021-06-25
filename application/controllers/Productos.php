@@ -72,6 +72,7 @@ class Productos extends Base_Controller
 
     }
 
+
     function listado_productos_categoria()
     {
         $categoria = urldecode($this->uri->segment(3));

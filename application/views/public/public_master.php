@@ -5,6 +5,18 @@
  * Date: 21/01/2018
  * Time: 3:36 PM
  */
+
+
+$CI =& get_instance();
+
+if ($CI->ion_auth->logged_in()) {
+    //echo'logeado';
+    $user_id = $CI->ion_auth->get_user_id();
+    $user_data = $CI->User_model->get_user_by_id($user_id);
+    $user_data = $user_data->row();
+} else {
+    // echo'no logeado';
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -80,7 +92,8 @@
                                     <a class="nav-link " href="/">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url() ?>productos/categoria/">Productos</a>
+                                    <a class="nav-link"
+                                       href="<?php echo base_url() ?>productos/categoria/">Productos</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/#servicioos_container">Nosotros</a>
@@ -90,11 +103,41 @@
                                         <a href="#" data-toggle="modal" data-target="#exampleModal">
                                             <i class="fas fa-search"></i>
                                         </a>
-                                        <a href="<?php echo base_url()?>user/login">
-                                            <i class="fas fa-user"></i>
-                                        </a>
-                                        <a href="<?php echo base_url()?>carrito/ver">
+                                        <?php
+                                        if ($CI->ion_auth->logged_in()) { ?>
+                                            <a href="<?php echo base_url() ?>User/perfil">
+                                                <i class="fas fa-user"></i>
+                                                Perfil
+                                            </a>
+                                            <a href="<?php echo base_url() ?>Auth/logout">
+                                                <i class="fas fa-sign-in-alt"></i>
+                                                Cerrar
+                                            </a>
+
+                                            <?php
+                                            if ($CI->ion_auth->is_admin()) { ?>
+                                                <a href="<?php echo base_url() ?>Admin">
+                                                    <i class="fas fa-user"></i>
+                                                    Admin panel
+                                                </a>
+                                            <?php } ?>
+
+
+                                        <?php } else { ?>
+                                            <a href="<?php echo base_url() ?>User/registro">
+                                                <i class="fas fa-user"></i>
+                                                Registrarse
+                                            </a>
+                                            <a href="<?php echo base_url() ?>user/login">
+                                                <i class="fas fa-user"></i>
+                                                iniciar session
+                                            </a>
+                                        <?php } ?>
+
+
+                                        <a href="<?php echo base_url() ?>carrito/ver">
                                             <i class="fas fa-shopping-cart"></i>
+                                            carrito
                                         </a>
                                     </div>
 
@@ -106,24 +149,27 @@
                     <!-- Button trigger modal -->
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog">
-                            <form name="buscar_form" action="<?php echo base_url();?>productos/buscar_producto" method="post">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Buscar</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                            <form name="buscar_form" action="<?php echo base_url(); ?>productos/buscar_producto"
+                                  method="post">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Buscar</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input class="form-control" type="text" name="buscar_input" id="buscar_input">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <input class="form-control" type="text" name="buscar_input" id="buscar_input">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Buscar</button>
-                                </div>
-                            </div>
                             </form>
                         </div>
                     </div>
@@ -156,9 +202,11 @@
                             <div id="follow_us" class="follow-us">
                                 <ul class="toggle-block">
                                     <li>
-                                        <a href="https://www.facebook.com/gpcomprasnet-234506886601172" title="Facebook" class="facebook icon" target="_blank"><i
+                                        <a href="https://www.facebook.com/gpcomprasnet-234506886601172" title="Facebook"
+                                           class="facebook icon" target="_blank"><i
                                                     class="fa fa-facebook"></i></a>
-                                        <a href="https://wa.me/50251677220" title="Whatsapp" class="whatsapp icon" target="_blank"><i
+                                        <a href="https://wa.me/50251677220" title="Whatsapp" class="whatsapp icon"
+                                           target="_blank"><i
                                                     class="fa fa-whatsapp"></i></a>
                                     </li>
                                 </ul>

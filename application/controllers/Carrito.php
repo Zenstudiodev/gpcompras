@@ -22,21 +22,15 @@ class Carrito extends Base_Controller
     {
         $data = compobarSesion();
         $data['clientes'] = $this->Cliente_model->listar_clientes();
-
         echo $this->templates->render('admin/lista_clientes', $data);
     }
     function agregar_producto(){
-
         //Id de producto desde segmento URL
         $data['Producto_id'] = $this->uri->segment(3);
         $data['cantidad'] = $this->uri->segment(4);
-
        // echo  $data['Producto_id'] ;
        // echo '<br>';
         //echo  $data['cantidad'] ;
-
-
-
         if($data['Producto_id']){
             //si se paso un producto
             $datos_producto = $this->Productos_model->get_info_producto($data['Producto_id']);
@@ -77,18 +71,13 @@ class Carrito extends Base_Controller
             }else{
                 //devolver el producto no existe
             }
-
-
         }
-
-
     }
     function ver(){
         $data['contenido_carrito'] = $this->cart->contents();
         echo $this->templates->render('public/carrito', $data);
     }
     function actualizar(){
-
 
         //print_contenido($_POST);
         $productos = $_POST;

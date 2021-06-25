@@ -22,7 +22,7 @@ $costo_envio =0;
 
     <?php if($ci->cart->contents()){?>
 
-    <?php echo form_open(base_url().'index.php/carrito/actualizar'); ?>
+    <?php echo form_open(base_url().'Carrito/actualizar'); ?>
     <div class="table-responsive">
         <table class="table">
 
@@ -104,12 +104,12 @@ $costo_envio =0;
 
         </div>
     </div>
-    <form action="<?php echo base_url()?>index.php/Productos/crear_predido" method="post">
+    <form action="<?php echo base_url()?>Carrito/formas_pago" method="post">
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <!--<div class="form-group col-md-3">
                 <label for="pais_envio">País </label>
                 <input type="text" class="form-control" id="pais_envio" name="pais_envio" required>
-            </div>
+            </div>-->
             <div class="form-group col-md-3">
                 <label for="departamento_envio">Departamento</label>
                 <input type="text" class="form-control" id="departamento_envio" name="departamento_envio" required>

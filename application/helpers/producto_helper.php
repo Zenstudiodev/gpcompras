@@ -8,6 +8,15 @@
 
 
 
+function obtener_subcategorias($categoria_id){
+    $ci =& get_instance();
+    $sub_categorias = $ci->Productos_model->obtener_subcategorias($categoria_id);
+    if($sub_categorias){
+        return $sub_categorias->result();
+    }else{
+        return false;
+    }
+}
 function nombre_de_producto_por_codigo($producto_id){
     $ci =& get_instance();
     $datos_de_producto = $ci->Productos_model->get_info_producto($producto_id);

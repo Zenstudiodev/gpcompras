@@ -168,6 +168,45 @@ $producto_portada = array(
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="categoria_padre">Categoría</label>
+                                        <select class="form-control" id="producto_categoria_sub_categoria" name="producto_categoria_sub_categoria" >
+                                            <?php foreach ($categorias->result() as $categoria) { ?>
+                                                <?php if ($categoria->parent_id == '0') { ?>
+                                                    <option value="<?php echo $categoria->categoria_id; ?>"><?php echo $categoria->nombre_categoria; ?></option>
+                                                    <?php $subcategorias = obtener_subcategorias($categoria->categoria_id); ?>
+                                                    <?php if ($subcategorias) { ?>
+                                                        <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                            <option value="<?php echo $subcategoria->categoria_id; ?>">- <?php echo $subcategoria->nombre_categoria; ?></option>
+                                                            <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                            <?php //print_contenido($subcategorias); ?>
+                                                            <?php if ($subcategorias) { ?>
+                                                                <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                                    <option value="<?php echo $subcategoria->categoria_id; ?>">-- <?php echo $subcategoria->nombre_categoria; ?></option>
+                                                                    <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                                    <?php print_contenido($subcategorias); ?>
+                                                                    </li>
+                                                                <?php } ?>
+
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label ></label>
+                                        <a class="btn btn-info" href="<?php echo base_url().'Admin/categorias'?>" target="_blank">Administrar categorías</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label>Categoría</label>
                                         <?php echo form_input($producto_categoria);?>
                                     </div>
@@ -259,5 +298,9 @@ $producto_portada = array(
 <!--fin de <div class="container-fluid">-->
 <?php $this->stop() ?>
 <?php $this->start('js_p') ?>
-
+<script>
+    $( document ).ready(function() {
+        $("#producto_categoria_sub_categoria option[value='<?php echo $producto->producto_categoria_sub_categoria?>']").attr("selected", true);
+    });
+</script>
 <?php $this->stop() ?>
