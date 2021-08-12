@@ -131,7 +131,7 @@ $producto_portada = array(
 
 ?>
 <?php $this->start('css_p') ?>
-
+<link rel="stylesheet" href="<?php base_url() ?>/ui/vendor/jQuery-Tags/jquery.tagsinput.css">
 <?php $this->stop() ?>
 
 <?php $this->start('header_banner') ?>
@@ -247,6 +247,14 @@ $producto_portada = array(
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <input id="producto_tags" name="producto_tags" type="text" class="tags form-control" value="<?php echo $producto->producto_tags; ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Precio</label>
@@ -298,6 +306,34 @@ $producto_portada = array(
 <!--fin de <div class="container-fluid">-->
 <?php $this->stop() ?>
 <?php $this->start('js_p') ?>
+<script src="<?php echo base_url(); ?>/ui/vendor/jQuery-Tags/jquery.tagsinput.js"></script>
+<script type="text/javascript">
+
+    function onAddTag(tag) {
+        alert("Added a tag: " + tag);
+    }
+    function onRemoveTag(tag) {
+        alert("Removed a tag: " + tag);
+    }
+
+    function onChangeTag(input,tag) {
+        alert("Changed a tag: " + tag);
+    }
+
+    $(function() {
+
+        $('#producto_tags').tagsInput({width:'auto'});
+
+
+
+// Uncomment this line to see the callback functions in action
+//			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});
+
+// Uncomment this line to see an input with no interface for adding new tags.
+//			$('input.tags').tagsInput({interactive:false});
+    });
+
+</script>
 <script>
     $( document ).ready(function() {
         $("#producto_categoria_sub_categoria option[value='<?php echo $producto->producto_categoria_sub_categoria?>']").attr("selected", true);

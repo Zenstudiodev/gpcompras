@@ -133,7 +133,7 @@ $producto_portada = array(
 
 ?>
 <?php $this->start('css_p') ?>
-
+<link rel="stylesheet" href="<?php base_url() ?>/ui/vendor/jQuery-Tags/jquery.tagsinput.css">
 <?php $this->stop() ?>
 
 <?php $this->start('header_banner') ?>
@@ -162,6 +162,43 @@ $producto_portada = array(
                                     <div class="form-group">
                                         <label>Nombre del producto</label>
                                         <?php echo form_input($producto_nombre);?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="categoria_padre">Categoría</label>
+                                        <select class="form-control" id="producto_categoria_sub_categoria" name="producto_categoria_sub_categoria" >
+                                            <?php foreach ($categorias->result() as $categoria) { ?>
+                                                <?php if ($categoria->parent_id == '0') { ?>
+                                                    <option value="<?php echo $categoria->categoria_id; ?>"><?php echo $categoria->nombre_categoria; ?></option>
+                                                    <?php $subcategorias = obtener_subcategorias($categoria->categoria_id); ?>
+                                                    <?php if ($subcategorias) { ?>
+                                                        <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                            <option value="<?php echo $subcategoria->categoria_id; ?>">- <?php echo $subcategoria->nombre_categoria; ?></option>
+                                                            <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                            <?php //print_contenido($subcategorias); ?>
+                                                            <?php if ($subcategorias) { ?>
+                                                                <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                                    <option value="<?php echo $subcategoria->categoria_id; ?>">-- <?php echo $subcategoria->nombre_categoria; ?></option>
+                                                                    <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                                    <?php print_contenido($subcategorias); ?>
+                                                                    </li>
+                                                                <?php } ?>
+
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label ></label>
+                                        <a class="btn btn-info" href="<?php echo base_url().'Admin/categorias'?>" target="_blank">Administrar categorías</a>
                                     </div>
                                 </div>
                             </div>
@@ -207,6 +244,15 @@ $producto_portada = array(
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <input id="producto_tags" name="producto_tags" type="text" class="tags form-control" value="" />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -258,5 +304,33 @@ $producto_portada = array(
 <!--fin de <div class="container-fluid">-->
 <?php $this->stop() ?>
 <?php $this->start('js_p') ?>
+<script src="<?php echo base_url(); ?>/ui/vendor/jQuery-Tags/jquery.tagsinput.js"></script>
 
+<script type="text/javascript">
+
+    function onAddTag(tag) {
+        alert("Added a tag: " + tag);
+    }
+    function onRemoveTag(tag) {
+        alert("Removed a tag: " + tag);
+    }
+
+    function onChangeTag(input,tag) {
+        alert("Changed a tag: " + tag);
+    }
+
+    $(function() {
+
+        $('#producto_tags').tagsInput({width:'auto'});
+
+
+
+// Uncomment this line to see the callback functions in action
+//			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});
+
+// Uncomment this line to see an input with no interface for adding new tags.
+//			$('input.tags').tagsInput({interactive:false});
+    });
+
+</script>
 <?php $this->stop() ?>

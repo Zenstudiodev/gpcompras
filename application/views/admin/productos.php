@@ -62,6 +62,8 @@ $this->layout('admin/admin_master');
                                     <a class="btn btn-success"
                                        href="<?php echo base_url() . 'productos/admin_revisar_producto/' . $producto->producto_id; ?>">Revisar
                                         producto</a>
+                                    <a class="btn btn-success"
+                                       href="<?php echo base_url() . 'admin/subir_fotos/' . $producto->producto_id; ?>">Editar fotos</a>
                                     <a class="btn btn-info"
                                        href="<?php echo base_url() . 'admin/editar_producto/' . $producto->producto_id; ?>">Editar
                                         producto</a>

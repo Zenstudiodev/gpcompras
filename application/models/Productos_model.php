@@ -91,8 +91,6 @@ class Productos_model extends CI_Model
         $this->db->where('producto_codigo', $codigo_porducto);
         $query = $this->db->update('productos', $datos);
     }
-
-
     public function get_productos()
     {
         $query = $this->db->get('productos');
@@ -140,11 +138,13 @@ class Productos_model extends CI_Model
             //'producto_id' => $data['producto_id'],
             'producto_nombre' => $data['producto_nombre'],
             'producto_codigo' => $data['producto_codigo'],
+            'producto_categoria_sub_categoria' => $data['producto_categoria_sub_categoria'],
             'producto_categoria' => $data['producto_categoria'],
             'producto_sub_categoria' => $data['producto_sub_categoria'],
             //'producto_material' => $data['producto_material'],
             'producto_marca' => $data['producto_marca'],
             'producto_descripcion' => $data['producto_descripcion'],
+            'producto_tags' => $data['producto_tags'],
             'producto_color' => $data['producto_color'],
             'producto_medidas' => $data['producto_medidas'],
             'producto_existencias' => $data['producto_existencias'],
@@ -172,6 +172,7 @@ class Productos_model extends CI_Model
             //'producto_material' => $data['producto_material'],
             'producto_marca' => $data['producto_marca'],
             'producto_descripcion' => $data['producto_descripcion'],
+            'producto_tags' => $data['producto_tags'],
             'producto_color' => $data['producto_color'],
             'producto_medidas' => $data['producto_medidas'],
             'producto_existencias' => $data['producto_existencias'],
@@ -308,6 +309,7 @@ class Productos_model extends CI_Model
             'fecha_pedido' => $fecha->format('Y-m-d'),
             'user_id_pedido' => $data['user_id'],
             'total_pedido' => $data['total_pedido'],
+            'forma_pago_pedido' => $data['forma_pago'],
         );
         $this->db->insert('pedidos', $datos_pedido);
         $insert_id = $this->db->insert_id();
@@ -320,8 +322,8 @@ class Productos_model extends CI_Model
         $datos_producto = array(
             'pedido_id' => $data['pedido_id'],
             'codigo_producto' => $data['codigo_producto'],
-            'linea_producto' => $data['linea_producto'],
-            'categoria_producto' => $data['categoria_producto'],
+            //'linea_producto' => $data['linea_producto'],
+            //'categoria_producto' => $data['categoria_producto'],
             'cantidad_producto' => $data['cantidad_producto'],
             'precio_producto' => $data['precio_producto'],
         );
@@ -376,7 +378,7 @@ class Productos_model extends CI_Model
 
         $direccion_pedido = array(
             'id_pedido' => $data['pedido_id'],
-            'direccion_pais' => $data['direccion_pais'],
+            //'direccion_pais' => $data['direccion_pais'],
             'direccion_departamento' => $data['direccion_departamento'],
             'direccion_municipio' => $data['direccion_municipio'],
             'direccion_zona' => $data['direccion_zona'],

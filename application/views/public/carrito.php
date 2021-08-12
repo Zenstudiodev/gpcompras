@@ -187,6 +187,8 @@ $costo_envio =0;
                 <tr>
                     <td>Total</td>
                     <td>Q.<?php echo number_format($total_con_envio, 2, '.', ','); ?></td>
+                    <input type="hidden" name="costo_envio" value="<?php echo $costo_envio;?>">
+                    <input type="hidden" name="total_con_envio" value="<?php echo $total_con_envio;?>">
                 </tr>
             </table>
         </div>

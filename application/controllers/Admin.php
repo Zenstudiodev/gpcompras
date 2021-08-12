@@ -16,6 +16,7 @@ class Admin extends Base_Controller
         $this->load->model('Productos_model');
         $this->load->model('User_model');
         $this->load->model('Banners_model');
+        $this->load->model('Admin_model');
     }
 
     function index()
@@ -33,14 +34,6 @@ class Admin extends Base_Controller
         }
         $data = array();
         echo $this->templates->render('admin/admin_home');
-    }
-
-    //productos
-
-    public function listado_productos()
-    {
-        $data['productos'] = $this->Productos_model->get_productos();
-        echo $this->templates->render('admin/productos', $data);
     }
 
     //categorias
@@ -61,7 +54,6 @@ class Admin extends Base_Controller
         $data['categorias'] = $this->Productos_model->get_categorias_n();
         echo $this->templates->render('admin/admin_categorias', $data);
     }
-
     public function crear_categoria()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -79,7 +71,6 @@ class Admin extends Base_Controller
         $data['categorias'] = $this->Productos_model->get_categorias_n();
         echo $this->templates->render('admin/admin_crear_categoria', $data);
     }
-
     public function guardar_categoria()
     {
         //print_contenido($_POST);
@@ -101,6 +92,12 @@ class Admin extends Base_Controller
 
     }
 
+    //productos
+    public function listado_productos()
+    {
+        $data['productos'] = $this->Productos_model->get_productos();
+        echo $this->templates->render('admin/productos', $data);
+    }
     public function crear_producto()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -115,23 +112,24 @@ class Admin extends Base_Controller
             redirect(base_url() . 'User/perfil');
         }
         $data = array();
-
+        $data['categorias'] = $this->Productos_model->get_categorias_n();
         echo $this->templates->render('admin/crear_producto', $data);
     }
-
     public function guardar_producto()
     {
-        // print_contenido($_POST);
+         //print_contenido($_POST);
 
         $producto_data = array(
             'producto_codigo' => $this->input->post('producto_codigo'),
             'producto_nombre' => $this->input->post('producto_nombre'),
+            'producto_categoria_sub_categoria' => $this->input->post('producto_categoria_sub_categoria'),
             'producto_categoria' => $this->input->post('producto_categoria'),
             'producto_sub_categoria' => $this->input->post('producto_sub_categoria'),
             'producto_marca' => $this->input->post('producto_marca'),
             'producto_color' => $this->input->post('producto_color'),
             'producto_medidas' => $this->input->post('producto_medidas'),
             'producto_descripcion' => $this->input->post('producto_descripcion'),
+            'producto_tags' => $this->input->post('producto_tags'),
             'producto_existencias' => $this->input->post('producto_existencias'),
             'producto_precio' => $this->input->post('producto_precio'),
             'producto_precio_oferta' => $this->input->post('producto_precio_oferta'),
@@ -146,7 +144,6 @@ class Admin extends Base_Controller
             redirect(base_url() . 'admin/subir_fotos/' . $producto_id);
         }
     }
-
     public function editar_producto()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -168,7 +165,6 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/editar_producto', $data);
     }
-
     public function actualizar_producto()
     {
         $producto_data = array(
@@ -182,6 +178,7 @@ class Admin extends Base_Controller
             'producto_color' => $this->input->post('producto_color'),
             'producto_medidas' => $this->input->post('producto_medidas'),
             'producto_descripcion' => $this->input->post('producto_descripcion'),
+            'producto_tags' => $this->input->post('producto_tags'),
             'producto_existencias' => $this->input->post('producto_existencias'),
             'producto_precio' => $this->input->post('producto_precio'),
             'producto_precio_oferta' => $this->input->post('producto_precio_oferta'),
@@ -194,15 +191,12 @@ class Admin extends Base_Controller
 
         redirect(base_url() . 'admin/listado_productos/' . $producto_id);
     }
-
     public function desactivar_producto()
     {
     }
-
     public function borrar_producto()
     {
     }
-
     public function subir_fotos()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -230,7 +224,6 @@ class Admin extends Base_Controller
         echo $this->templates->render('admin/subir_imagenes_propiedad', $data);
 
     }
-
     public function guardar_imagen()
     {
         // print_contenido($_FILES);
@@ -329,7 +322,6 @@ class Admin extends Base_Controller
 
         }
     }
-
     public function borrar_imagen()
     {
 
@@ -379,7 +371,6 @@ class Admin extends Base_Controller
         $data['pedidos'] = $this->Productos_model->get_pedidos();
         echo $this->templates->render('admin/pedidos', $data);
     }
-
     public function revisar_pedido()
     {
         $id_pedido = $this->uri->segment(3);
@@ -394,7 +385,6 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/revisar_pedido', $data);
     }
-
     public function actualizar_pedido()
     {
         $id_pedido = $this->input->post('id_pedido');
@@ -423,23 +413,18 @@ class Admin extends Base_Controller
         }
 
     }
-
     public function banners_inactivos()
     {
     }
-
     public function crear_banner()
     {
     }
-
     public function guardar_banner()
     {
     }
-
     public function desactivar_banner()
     {
     }
-
     public function crear_banner_header()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -461,7 +446,6 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/admin_crear_banner_header', $data);
     }
-
     public function guardar_banner_header()
     {
         // print_contenido($_POST);
@@ -502,7 +486,6 @@ class Admin extends Base_Controller
 
 
     }
-
     public function banners_header()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -520,7 +503,6 @@ class Admin extends Base_Controller
         $data['banners'] = $this->Banners_model->banners_header();
         echo $this->templates->render('admin/admin_banners_header', $data);
     }
-
     public function editar_banner_header()
     {
         //id banner
@@ -528,7 +510,6 @@ class Admin extends Base_Controller
         $data['banner_data'] = $this->Banners_model->banner_header_data($data['id_banner']);
         echo $this->templates->render('admin/admin_editar_banner_header', $data);
     }
-
     public function actualizar_banner_header()
     {
         /* echo '<pre>';
@@ -549,7 +530,6 @@ class Admin extends Base_Controller
         $this->Banners_model->actualizar_banners_header($post_data);
         redirect(base_url() . 'admin/banners_header/');
     }
-
     public function actualizar_banner()
     {
         $post_data = array(
@@ -576,35 +556,30 @@ class Admin extends Base_Controller
 
         echo $this->templates->render('admin/productos_portada', $data);
     }
-
     public function asignar_portada()
     {
         $codigo_producto = $this->uri->segment(3);
         $this->Productos_model->asignar_producto_portada($codigo_producto);
         redirect(base_url() . 'index.php/admin/productos_portada');
     }
-
     public function quitar_portada()
     {
         $codigo_producto = $this->uri->segment(3);
         $this->Productos_model->quitar_producto_portada($codigo_producto);
         redirect(base_url() . 'index.php/admin/productos_portada');
     }
-
     public function iconos_lineas()
     {
         $data['lineas_productos'] = $this->Productos_model->get_lineas();
 
         echo $this->templates->render('admin/iconos_lineas', $data);
     }
-
     public function asignar_icono_linea()
     {
         $linea = $this->uri->segment(3);
         $data['linea'] = $linea;
         echo $this->templates->render('admin/asignar_icono_linea', $data);
     }
-
     public function guardar_icono_linea()
     {
         // print_contenido($_POST);
@@ -641,7 +616,6 @@ class Admin extends Base_Controller
 
 
     }
-
     public function borrar_icono_linea()
     {
         $linea = $this->uri->segment(3);
@@ -677,10 +651,78 @@ class Admin extends Base_Controller
 
         }
     }
-
     public function actualizar_icono_linea()
     {
 
+    }
+
+    //empresas plantillas
+    public function empresas_planilla(){
+        if (!$this->ion_auth->logged_in()) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/login');
+        }
+
+        $user_id = $this->ion_auth->get_user_id();
+
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/perfil');
+        }
+        $data = array();
+        $data['eplanilla'] = $this->Admin_model->get_empresas_planilla();
+        echo $this->templates->render('admin/admin_empresas_planilla', $data);
+    }
+    public function nueva_empresa_planilla(){
+        if (!$this->ion_auth->logged_in()) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/login');
+        }
+
+        $user_id = $this->ion_auth->get_user_id();
+
+        if (!$this->ion_auth->in_group('administracion', $user_id)) {
+            // redirect them to the login page
+            redirect(base_url() . 'User/perfil');
+        }
+        $data = array();
+        $data['eplanilla'] = $this->Admin_model->get_empresas_planilla();
+        echo $this->templates->render('admin/admin_crear_empresa_planilla', $data);
+    }
+    public function guardar_planilla(){
+        //print_contenido($_POST);
+        //print_contenido($_FILES);
+
+        $nombre_archivo =  str_replace(' ', '_', $this->input->post('nombre_empresa'));
+        $config['upload_path']          = './upload/empresas';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['file_name']        = $nombre_archivo;
+        $config['overwrite']        = true;
+        //$config['max_size']             = 100;
+        //$config['max_width']            = 1024;
+        //$config['max_height']           = 768;
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('logo_empresa'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+            print_contenido($error);
+           // $this->load->view('upload_form', $error);
+        }
+        else
+        {
+            $nombre_archivo = $nombre_archivo.$this->upload->data('file_ext');
+            $empresa_planilla =array(
+                'ep_nombre'=>$this->input->post('nombre_empresa'),
+                'ep_descripcion'=>$this->input->post('nombre_empresa'),
+                'ep_logo'=>$nombre_archivo,
+            );
+
+            $this->Admin_model->guardar_empresa_planilla($empresa_planilla);
+
+
+
+        }
+        redirect('Admin/empresas_planilla');
     }
 
 

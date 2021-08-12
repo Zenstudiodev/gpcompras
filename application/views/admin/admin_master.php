@@ -184,6 +184,12 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>Admin/empresas_planilla" aria-expanded="false">
+                            <i data-feather="shopping-bag"  class="feather-icon"></i>
+                            <span class="hide-menu">Empresas planilla</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
                         <a class="sidebar-link sidebar-link" href="<?php echo base_url() ?>admin/categorias" aria-expanded="false">
                             <i data-feather="shopping-bag"  class="feather-icon"></i>
                             <span class="hide-menu">Categoría y sub categorías</span>
@@ -208,6 +214,7 @@
                             <span class="hide-menu">Banners</span>
                         </a>
                     </li>
+
                     <!--<li class="list-divider"></li>
                     <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
 

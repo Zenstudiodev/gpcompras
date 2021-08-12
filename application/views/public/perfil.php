@@ -85,7 +85,7 @@ $user =$user->row();
 
                             </div>
                             <div class="card-footer text-muted">
-                                <a href="<?php echo base_url().'index.php/productos/pagar_pedido/'.$pedido->id_pedido?>" class="card-link">Pagar pedido</a>
+                                <!--<a href="<?php /*echo base_url().'index.php/productos/pagar_pedido/'.$pedido->id_pedido*/?>" class="card-link">Pagar pedido</a>-->
                                 <a href="#" class="card-link"></a>
                             </div>
                         </div>

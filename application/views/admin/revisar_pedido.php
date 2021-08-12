@@ -57,6 +57,7 @@ $estado_pedido_options = array(
                             <td>Id cliente</td>
                             <td>Nombre cliente</td>
                             <td>Total pedido</td>
+                            <td>Forma de pago</td>
                             <td>Estado</td>
                         </tr>
                         <tr>
@@ -65,6 +66,7 @@ $estado_pedido_options = array(
                             <td><?php echo $pedido->user_id_pedido; ?></td>
                             <td><?php echo $pedido->user_id_pedido; ?></td>
                             <td><?php echo $pedido->total_pedido; ?></td>
+                            <td><?php echo $pedido->forma_pago_pedido; ?></td>
                             <td><?php echo $pedido->estado_pedido; ?></td>
                         </tr>
                     </table>
@@ -117,7 +119,7 @@ $estado_pedido_options = array(
                         <td><?php echo $datos_envio->direccion_zona; ?></td>
                     </tr>
                     <tr>
-                        <td colspan="4">Dirección</td>
+                        <td colspan="4"><b>Dirección</b></td>
                     </tr>
                     <tr>
                         <td colspan="4"><?php echo $datos_envio->direccion_direccion; ?></td>

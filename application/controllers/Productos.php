@@ -88,7 +88,7 @@ class Productos extends Base_Controller
     }
 
     //pedidos
-    function crear_predido()
+    public function crear_predido()
     {
 
         //comprobamos que este logueado
@@ -165,9 +165,8 @@ class Productos extends Base_Controller
 
         $this->email->initialize($config);
 
-        //$this->email->from('csamayoa@zenstudiogt.com', 'GP COPMRAS');
-        $this->email->to('info@gpcompras.net ');
-        //$this->email->cc('ventas@ajumbo.com');
+        $this->email->from('pedidos@gpcompras.net', 'GP COPMRAS');
+        $this->email->to('pedidos@gpcompras.net ');
         $this->email->bcc('csamayoa@zenstudiogt.com');
         $this->email->subject('Pedido');
 
@@ -184,7 +183,7 @@ class Productos extends Base_Controller
 
         $this->email->message($message);
 
-        //$this->email->send();
+        $this->email->send();
 
         if (!$this->email->send()) {
             // Generate error
@@ -193,10 +192,14 @@ class Productos extends Base_Controller
 
 
         //vaciamos carrito
-        $this->cart->destroy();
+        //$this->cart->destroy();
 
-        redirect(base_url() . 'index.php/user/perfil');
+        //redirect(base_url() . 'index.php/user/perfil');
 
+    }
+    function prueba_pedido(){
+
+        echo'prueba pedido';
     }
 
     function pagar_pedido()
