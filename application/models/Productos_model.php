@@ -17,7 +17,21 @@ class Productos_model extends CI_Model
 
 
     //categorias
+
+    public function get_productos_categoria($categoria){
+        $this->db->where('producto_categoria_sub_categoria', $categoria);
+        $this->db->where('producto_existencias >=', '1');
+        $query = $this->db->get('productos');
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
     public function get_categorias_n(){
+        $query = $this->db->get('categorias');
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
+    public function get_categoria_by_id($categoria_id){
+        $this->db->where('categoria_id', $categoria_id);
         $query = $this->db->get('categorias');
         if ($query->num_rows() > 0) return $query;
         else return false;
@@ -25,6 +39,13 @@ class Productos_model extends CI_Model
     public function obtener_subcategorias($categoria_id){
 
         $this->db->where('parent_id', $categoria_id);
+        $query = $this->db->get('categorias');
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
+    public function get_categoria_subcategoria_by_id($categoria_id){
+
+        $this->db->where('categoria_id', $categoria_id);
         $query = $this->db->get('categorias');
         if ($query->num_rows() > 0) return $query;
         else return false;
@@ -63,6 +84,7 @@ class Productos_model extends CI_Model
     {
         $this->db->limit(12);
         $this->db->order_by('producto_linea', 'RANDOM');
+        $this->db->where('producto_existencias >=', '1');
         //$this->db->where('producto_portada', '1');
         $query = $this->db->get('productos');
         if ($query->num_rows() > 0) return $query;
@@ -93,6 +115,7 @@ class Productos_model extends CI_Model
     }
     public function get_productos()
     {
+        $this->db->order_by('producto_categoria_sub_categoria', 'ASC');
         $query = $this->db->get('productos');
         if ($query->num_rows() > 0) return $query;
         else return false;
@@ -189,6 +212,16 @@ class Productos_model extends CI_Model
 
     }
     public function get_info_producto($id_producto)
+    {
+        $this->db->where('producto_id', $id_producto);
+        $this->db->where('producto_existencias >=', '1');
+        $this->db->order_by('producto_id', 'ASC');
+        $this->db->from('productos');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) return $query;
+        else return false;
+    }
+    public function get_info_producto_admin($id_producto)
     {
         $this->db->where('producto_id', $id_producto);
         $this->db->order_by('producto_id', 'ASC');

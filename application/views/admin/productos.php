@@ -12,7 +12,8 @@ $this->layout('admin/admin_master');
 ?>
 
 <?php $this->start('css_p') ?>
-<link rel="stylesheet" href="<?php echo base_url() ?>/ui/lib/datatables/datatables.min.css">
+
+<link href="<?php echo base_url() ?>/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
 <?php $this->stop() ?>
 
 <?php $this->start('header_banner') ?>
@@ -39,18 +40,30 @@ $this->layout('admin/admin_master');
     <hr>
     <div class="row">
         <div class="col">
+
             <?php if ($productos) { ?>
                 <div class="table-responsive">
-                    <table id="pedidos" class="display table" style="width:100%">
+                    <table id="productos" class="table table-striped table-bordered no-wrap">
                         <thead>
                         <tr>
                             <th>Id producto</th>
                             <th>Nombre producto</th>
                             <th>Precio</th>
+                            <th>Stock</th>
                             <th>Acción</th>
-                            <th>Categoría actualizada</th>
+                            <!--<th>Categoría actualizada</th>-->
                         </tr>
                         </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Id producto</th>
+                            <th>Nombre producto</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acción</th>
+                            <!--<th>Categoría actualizada</th>-->
+                        </tr>
+                        </tfoot>
                         <tbody>
                         <?php foreach ($productos->result() as $producto) { ?>
                             <?php //print_contenido($producto);?>
@@ -58,41 +71,34 @@ $this->layout('admin/admin_master');
                                 <td><?php echo $producto->producto_id; ?></td>
                                 <td><?php echo $producto->producto_nombre; ?></td>
                                 <td><?php echo $producto->producto_precio; ?></td>
+                                <td><?php echo $producto->producto_existencias; ?></td>
                                 <td>
-                                    <a class="btn btn-success"
-                                       href="<?php echo base_url() . 'productos/admin_revisar_producto/' . $producto->producto_id; ?>">Revisar
-                                        producto</a>
-                                    <a class="btn btn-success"
-                                       href="<?php echo base_url() . 'admin/subir_fotos/' . $producto->producto_id; ?>">Editar fotos</a>
-                                    <a class="btn btn-info"
-                                       href="<?php echo base_url() . 'admin/editar_producto/' . $producto->producto_id; ?>">Editar
-                                        producto</a>
-                                    <a class="btn btn-danger"
-                                       href="<?php echo base_url() . 'productos/borrar_producto/' . $producto->producto_id; ?>">Borrar
-                                        producto</a>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a class="btn btn-success btn-sm"
+                                           href="<?php echo base_url() . 'productos/admin_revisar_producto/' . $producto->producto_id; ?>">Revisar
+                                            producto</a>
+                                        <a class="btn btn-success btn-sm"
+                                           href="<?php echo base_url() . 'admin/subir_fotos/' . $producto->producto_id; ?>">Editar fotos</a>
+                                        <a class="btn btn-info btn-sm"
+                                           href="<?php echo base_url() . 'admin/editar_producto/' . $producto->producto_id; ?>">Editar
+                                            producto</a>
+                                        <a class="btn btn-danger btn-sm"
+                                           href="<?php echo base_url() . 'productos/borrar_producto/' . $producto->producto_id; ?>">Borrar
+                                            producto</a>
+                                    </div>
                                 </td>
-                                <td>
-                                    <?php if ($producto->producto_categoria_sub_categoria == '0') { ?>
+                                <!--<td>
+                                    <?php /*if ($producto->producto_categoria_sub_categoria == '0') { */?>
                                         <a class="btn btn-danger"></a>
-                                    <?php } else { ?>
+                                    <?php /*} else { */?>
                                         <a class="btn btn-success"></a>
-                                    <?php } ?>
-                                </td>
+                                    <?php /*} */?>
+                                </td>-->
 
                             </tr>
                         <?php } ?>
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Id Pedido</th>
-                            <th>Fecha del pedido</th>
-                            <th>Id cliente</th>
-                            <th>Nombre cliente</th>
-                            <th>Total del pedido</th>
-                            <th>Estado del pedido</th>
-                            <th></th>
-                        </tr>
-                        </tfoot>
+
                     </table>
                 </div>
             <?php } else { ?>
@@ -107,15 +113,35 @@ $this->layout('admin/admin_master');
 
 <?php $this->stop() ?>
 <?php $this->start('js_p') ?>
-<script src="<?php echo base_url() ?>/ui/lib/datatables/datatables.min.js"></script>
+<!--This page plugins -->
+<script src="<?php echo base_url() ?>/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
 
 <script>
+
+
     $(document).ready(function () {
-        $('#pedidos').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-            }
+        //$('#facturas').DataTable();
+        // Setup - add a text input to each footer cell
+        $('#productos tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" class="form-control" placeholder="Buscar ' + title + '" />');
         });
+
+        // DataTable
+        var table = $('#productos').DataTable();
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+        //$('#dataTable').DataTable();
     });
 </script>
 <?php $this->stop() ?>

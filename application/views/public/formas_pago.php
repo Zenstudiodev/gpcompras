@@ -205,13 +205,26 @@ $nombre = $user_data->first_name . ' ' . $user_data->last_name;
                                     <div class="form-group col-md-6">
                                         <label for="autoComplete">Seleccione la empresa donde trabaja</label>
                                         <input class="form-control" id="autoComplete" name="empresa_planilla"
-                                               aria-describedby="autoCompleteHelp">
+                                               aria-describedby="autoCompleteHelp" autocomplete="off" >
                                         <small id="autoCompleteHelp" class="form-text text-muted">Escriba el nombre de
                                             la empresa en la que trabaja
                                         </small>
                                     </div>
                                 </div>
+                                <div class="form-row">
 
+                                    <div class="form-group col-md-6">
+                                        <label for="puesto_empresa">Puesto</label>
+                                        <input class="form-control" id="puesto_empresa" name="puesto_empresa">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="asociacion_solidarista">Asociación solidarisata</label>
+                                        <input class="form-control" id="asociacion_solidarista" name="asociacion_solidarista">
+                                    </div>
+                                </div>
 
                             </div>
                         </div>

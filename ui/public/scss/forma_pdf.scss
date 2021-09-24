@@ -1,0 +1,100 @@
+@import 'config/variables';
+
+.w-100{
+  width: 100%;
+}
+.w-90{
+  width: 90%;
+}
+.w-80 {
+  width: 80%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.t-center {
+  text-align: center;
+}
+
+.forma_pdf {
+  width: 800px;
+  background: #f7f4f3;
+  font-family: Arial;
+
+}
+.forma_pdf_container{
+  margin: 10px auto;
+  width: 97%;
+}
+
+.titulo {
+  color: $naranja;
+  font-size: 27px;
+  font-weight: 700;
+  padding-top: 11px;
+  display: block;
+}
+
+#logo {
+  height: auto;
+  width: 180px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 30px;
+
+}
+.datos_cliente{
+  margin-bottom: 20px;
+}
+table {
+  border-collapse: separate!important;
+  border-spacing: 0px!important;
+  padding: 5px;
+}
+.datos_productos{
+  margin: 10px auto;
+
+  table, th, td {
+    border: 1px solid black;
+  }
+}
+.tl-d{
+  text-align: right;
+}
+
+#entrega{
+  margin: 40px auto;
+}
+#cuadro_firma{
+  border: 1px solid black;
+  width: 300px;
+  height: 160px;
+}

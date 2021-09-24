@@ -37,9 +37,12 @@ class Productos extends Base_Controller
     {
 
         $id_producto = $this->uri->segment(3);
-
-        $data['producto'] = $this->Productos_model->get_info_producto($id_producto);
-        //$data['lineas_productos'] = $this->Productos_model->get_lineas();
+        $porducto = $this->Productos_model->get_info_producto($id_producto);
+        $data['producto'] = $porducto;
+        $porducto = $porducto->row();
+        $categoria_id= $porducto->producto_categoria_sub_categoria;
+        //echo $categoria_id;
+        $data['catgoria'] = $this->Productos_model->get_categoria_by_id($categoria_id);
 
         if ($this->session->flashdata('mensaje')) {
             $data['mensaje'] = $this->session->flashdata('mensaje');
@@ -49,13 +52,17 @@ class Productos extends Base_Controller
 
     function categoria()
     {
-        $linea = $this->uri->segment(3);
-        $data['categorias'] = $this->Productos_model->get_categorias();
-        $sub_categorias = $this->Productos_model->get_sub_categorias($linea);
+        $linea = urldecode($this->uri->segment(3));
 
-        $data['sub_categorias'] = $sub_categorias;
-        $data['linea_actual'] = $linea;
-        echo $this->templates->render('public/categorias', $data);
+        if ($keyword = $this->input->post('buscar_input')) {
+            $data['keyword'] = $keyword;
+        } else {
+            $data['keyword'] = '';
+        }
+        $data['productos'] = $this->Productos_model->get_productos_categoria($linea);
+        //print_contenido($data['productos']->result());
+
+        echo $this->templates->render('public/productos_categoria', $data);
     }
 
     function sub_categoria()
@@ -79,9 +86,9 @@ class Productos extends Base_Controller
         $sub_categoria = urldecode($this->uri->segment(4));
         $data['productos_sub_categoria'] = $this->Productos_model->get_productos_sub_categoria($categoria, $sub_categoria);
         $data['categorias'] = $this->Productos_model->get_categorias();
-        if($keyword= $this->input->post('buscar_input')){
+        if ($keyword = $this->input->post('buscar_input')) {
             $data['keyword'] = $keyword;
-        }else{
+        } else {
             $data['keyword'] = '';
         }
         echo $this->templates->render('public/productos_categoria', $data);
@@ -197,9 +204,11 @@ class Productos extends Base_Controller
         //redirect(base_url() . 'index.php/user/perfil');
 
     }
-    function prueba_pedido(){
 
-        echo'prueba pedido';
+    function prueba_pedido()
+    {
+
+        echo 'prueba pedido';
     }
 
     function pagar_pedido()
@@ -507,13 +516,13 @@ class Productos extends Base_Controller
         $this->Productos_model->borrar_registro_producto($id_producto);
         $imagenes_producto = get_imgenes_producto_public($producto->producto_id);
         if ($imagenes_producto) {
-           // print_contenido($imagenes_producto->result());
+            // print_contenido($imagenes_producto->result());
 
             $start_banner = 0;
             foreach ($imagenes_producto->result() as $imagen) {
 
                 $imagen_id = $imagen->imagen_id;
-               // echo $imagen_id;
+                // echo $imagen_id;
 
                 $datos_imagen = $this->Productos_model->get_datos_imagen($imagen_id);
                 if ($datos_imagen) {
@@ -550,18 +559,18 @@ class Productos extends Base_Controller
             }
 
 
-
-
         }
 
         redirect(base_url() . 'admin/listado_productos');
 
 
     }
+
     //buscar
-    function buscar_producto(){
-        $keyword= $this->input->post('buscar_input');
-        if($keyword){
+    function buscar_producto()
+    {
+        $keyword = $this->input->post('buscar_input');
+        if ($keyword) {
             $productos = $this->Productos_model->buscar($keyword);
             $data['keyword'] = $keyword;
             $data['productos_sub_categoria'] = $productos;
@@ -569,17 +578,256 @@ class Productos extends Base_Controller
             //$data['catalogos_list'] = $this->Productos_model->get_catalogos();
             //print_contenido($productos->result());
             echo $this->templates->render('public/productos_categoria', $data);
-        }else{
+        } else {
             redirect(base_url());
         }
     }
 
-    function admin_revisar_producto(){
+    function admin_revisar_producto()
+    {
         $id_producto = $this->uri->segment(3);
         $data['producto'] = $this->Productos_model->get_info_producto($id_producto);
         echo $this->templates->render('admin/admin_revisar_producto', $data);
     }
 
+    function pdf_generatort()
+    {
+        echo $this->templates->render('admin/solicitud_de_compra');
+
+    }
+
+    function pdf_generator()
+    {
+
+
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('GP Compras');
+        $pdf->SetTitle('Pedido ');
+        $pdf->SetSubject('Solicitud de pago por planilla');
+        $pdf->SetKeywords('GP compras');
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // set default header data
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 061', PDF_HEADER_STRING);
+
+        // set header and footer fonts
+        //$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, 0, PDF_MARGIN_RIGHT);
+        //$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+            require_once(dirname(__FILE__) . '/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+
+// ---------------------------------------------------------
+
+// set font
+        //$pdf->SetFont('helvetica', '', 10);
+
+// add a page
+        $pdf->AddPage();
+
+        /* NOTE:
+         * *********************************************************
+         * You can load external XHTML using :
+         *
+         * $html = file_get_contents('/path/to/your/file.html');
+         *
+         * External CSS files will be automatically loaded.
+         * Sometimes you need to fix the path of the external CSS.
+         * *********************************************************
+         */
+
+// define some HTML content with style
+        $html = '<style>
+        .t-center,h1{text-align:center}#cuadro_firma,.datos_productos table,.datos_productos td,.datos_productos th{border:1px solid #000}.w-100{width:100%}.w-90{width:90%}.w-80{width:80%}.w-70{width:70%}.w-60{width:60%}.w-50{width:50%}.w-40{width:40%}.w-30{width:30%}.w-20{width:20%}.w-10{width:10%}.forma_pdf{width:800px;background:#f7f4f3;font-family:Arial}.forma_pdf_container{margin:10px auto;width:97%}.titulo{color:#f19800;font-size:24px;font-weight:700;padding-top:11px;display:block}#logo{height:auto;width:180px}h1{font-size:30px}.datos_cliente{margin-bottom:20px}table{border-collapse:separate!important;border-spacing:0!important;padding:5px}.datos_productos{margin:10px auto}.tl-d{text-align:right}#entrega{margin:40px auto}#cuadro_firma{width:300px;height:160px}
+</style>';
+
+
+        $numero_solicitud = '4554';
+        $nombre_cliente = 'nombre cliente';
+        $puesto_cliente = 'puesto cliente';
+        $telefono_cliente = 'telefono cliente';
+        $empresa_cliente = 'empresa cliente';
+        $asociacion_solidarista = 'Asociacion';
+        $html .= '<div class="forma_pdf" style=" width: 800px; background: #f7f4f3;     font-family: Arial;">';
+        $html .= '<div class="forma_pdf_container">';
+        $html .= '<table class="table">';
+        $html .= '    <tr>';
+        $html .= '        <td class="w-50">';
+        $html .= ' <a href="' . base_url() . '">';
+        $html .= '                <img src="' . base_url() . 'ui/public/imagenes/logo.png" id="logo">';
+        $html .= '            </a>';
+        $html .= '        </td>';
+        $html .= '<td class="w-50 t-center" >';
+        $html .= '            <span class="titulo" style="color: #f19800; font-size: 24px; font-weight: 900; padding-top: 11px; display: block;"> www.GPCOMPRAS.NET</span >';
+        $html .= '        </td >';
+        $html .= '    </tr >';
+        $html .= '    <tr >';
+        $html .= '<td class="t-center" colspan = "2" >';
+        $html .= '</td >';
+        $html .= '</tr >';
+        $html .= '<tr >';
+        $html .= '<td class="t-center" colspan = "2" >';
+        $html .= '<h1 > Solicitud de compra ' . $numero_solicitud . '</h1>';
+        $html .= '</td >';
+        $html .= '</tr >';
+        $html .= '</table >';
+        $html .= '<table class="datos_cliente" >';
+        $html .= '<tr >';
+        $html .= '<td class="w-20" > Cliente:</td >';
+        $html .= '<td >' . $nombre_cliente . '</td >';
+        $html .= '</tr >';
+        $html .= '<tr >';
+        $html .= '<td > Puesto:</td >';
+        $html .= '<td >' . $puesto_cliente . '</td >';
+        $html .= '</tr >';
+        $html .= '<tr >';
+        $html .= '<td > Telefono</td >';
+        $html .= '<td >' . $telefono_cliente . '</td >';
+        $html .= '</tr >';
+        $html .= '<tr >';
+        $html .= '<td> Empresa</td >';
+        $html .= '<td>' . $empresa_cliente . '</td >';
+        $html .= '</tr >';
+        $html .= '   <tr >';
+        $html .= '        <td > Asociación solidarista </td >';
+        $html .= '        <td >' . $asociacion_solidarista . '</td >';
+        $html .= '    </tr >';
+        $html .= '</table >';
+        $html .= '<div style="height: 20px; display:block;"></div>';
+        $html .= '<table class="datos_productos w-100" >';
+        $html .= '    <tr >';
+        $html .= '       <td >Cantidad </td >';
+        $html .= '        <td > Codigo</td >';
+        $html .= '        <td > Producto</td >';
+        $html .= '        <td > Precio unidad </td >';
+        $html .= '        <td > Total</td >';
+        $html .= '    </tr >';
+        $html .= '    <tr >';
+        $html .= '        <td > 1</td >';
+        $html .= '        <td > 102</td >';
+        $html .= '        <td > OLLA DE PRESION DE 9 LITROS BLACK & DECK </td >';
+        $html .= '        <td > 485.00</td >';
+        $html .= '        <td > 485.00</td >';
+        $html .= '    </tr >';
+        $html .= '    <tr >';
+        $html .= '        <td > 1</td >';
+        $html .= '        <td > 102</td >';
+        $html .= '        <td > OLLA DE PRESION DE 9 LITROS BLACK & DECK </td >';
+        $html .= '        <td > 485.00</td >';
+        $html .= '        <td > 485.00</td >';
+        $html .= '    </tr >';
+
+        $html .= '    <tr >';
+        $html .= '        <td colspan = "3" ></td >';
+        $html .= '        <td  class="tl-d" > Total:</td >';
+        $html .= '        <td ></td >';
+        $html .= '        <td ></td >';
+        $html .= '    </tr >';
+        $html .= '</table >';
+        $html .= '<div style="height: 50px; display:block;"><p>&nbsp;</p></div>';
+        $html .= '<table id = "entrega" class="w-100" >';
+        $html .= '    <tr >';
+        $html .= '        <td >';
+        $html .= 'lugar de entrega';
+        $html .= '</td >';
+        $html .= '        <td style = "border: 1px solid black" > Km, 16.5 carr salvador arrazola panorama lote 32 codigo 0990 </td >';
+        $html .= '    </tr >';
+        $html .= '</table >';
+        $html .= '<div style="height: 50px; display:block;"><p>&nbsp;</p></div>';
+        $html .= '<table class="w-100" >';
+        $html .= '    <tr >';
+        $html .= '        <td class="w-50" >';
+        $html .= '            <table >';
+        $html .= '                <tr >';
+        $html .= '                    <td colspan = "2" >';
+        $html .= 'Autorizacion';
+        $html .= '                    </td >';
+        $html .= '                </tr >';
+        $html .= '                <tr >';
+        $html .= '                    <td >';
+        $html .= 'Nombre';
+        $html .= '                   </td >';
+        $html .= '                    <td ></td >';
+        $html .= '                </tr >';
+        $html .= '                <tr >';
+        $html .= '                    <td >';
+        $html .= 'Puesto';
+        $html .= '                    </td >';
+        $html .= '                    <td ></td >';
+        $html .= '                </tr >';
+        $html .= '                <tr >';
+        $html .= '                    <td >';
+        $html .= 'Fecha Autorizacion';
+        $html .= '</td >';
+        $html .= '                    <td ></td >';
+        $html .= '                </tr >';
+        $html .= '            </table >';
+        $html .= '</td >';
+        $html .= '        <td class="w-50" >';
+        $html .= '            <table >';
+        $html .= '                <tr >';
+        $html .= '                    <td >';
+        $html .= 'Frima de autorizado';
+        $html .= '</td >';
+        $html .= '                </tr >';
+        $html .= '                <tr >';
+        $html .= '                    <td >';
+        $html .= '                        <div id = "cuadro_firma" >';
+        $html .= '                                </div >';
+        $html .= '                    </td >';
+        $html .= '                </tr >';
+        $html .= '            </table >';
+        $html .= '</td >';
+        $html .= '    </tr >';
+        $html .= '</table >';
+        $html .= '</div >';
+        $html .= '</div > ';
+
+
+// output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+// reset pointer to the last page
+        $pdf->lastPage();
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+        $pdf->Output('example_061.pdf', 'I');
+        //$pdf->Output('laura pausini', 'I');
+
+
+//============================================================+
+// END OF FILE
+//============================================================+
+
+    }
 
 
 }

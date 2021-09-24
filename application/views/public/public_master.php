@@ -83,7 +83,7 @@ if ($CI->ion_auth->logged_in()) {
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#main_menu" aria-controls="main_menu"
                                 aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
+                            <i class="fa fa-bars" aria-hidden="true"></i> Menú
                         </button>
 
                         <div class="collapse navbar-collapse justify-content-end" id="main_menu">
@@ -97,6 +97,9 @@ if ($CI->ion_auth->logged_in()) {
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/#servicioos_container">Nosotros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="openNav()">Categorías</a>
                                 </li>
                                 <li class="nav-item">
                                     <div id="iconos_menu">
@@ -124,10 +127,10 @@ if ($CI->ion_auth->logged_in()) {
 
 
                                         <?php } else { ?>
-                                            <a href="<?php echo base_url() ?>User/registro">
+                                            <!--<a href="<?php /*echo base_url() */?>User/registro">
                                                 <i class="fas fa-user"></i>
                                                 Registrarse
-                                            </a>
+                                            </a>-->
                                             <a href="<?php echo base_url() ?>user/login">
                                                 <i class="fas fa-user"></i>
                                                 iniciar session
@@ -186,7 +189,123 @@ if ($CI->ion_auth->logged_in()) {
 
 
 </section>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="accordion" id="categoriasMenu">
+        <?php
+        $categorias = get_categorias_sub_categorias();
+        foreach ($categorias
+
+                 as $categoria) { ?>
+            <?php if ($categoria->parent_id == '0') { ?>
+                <div class="card">
+                    <div class="card-header" id="heading_<?php echo $categoria->nombre_categoria; ?>">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                    data-toggle="collapse"
+                                    data-target="#collapse_<?php echo preg_replace('/\s+/', '_', $categoria->nombre_categoria); ?>"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                <?php echo $categoria->nombre_categoria; ?>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse_<?php echo preg_replace('/\s+/', '_', $categoria->nombre_categoria); ?>"
+                         class="collapse" aria-labelledby="heading_<?php echo $categoria->nombre_categoria; ?>"
+                         data-parent="#categoriasMenu">
+                        <div class="card-body">
+                            <?php $subcategorias = obtener_subcategorias($categoria->categoria_id); ?>
+                            <?php if ($subcategorias) { ?>
+                                <div class="accordion"
+                                     id="Sub_<?php echo preg_replace('/\s+/', '_', $categoria->nombre_categoria); ?>">
+                                    <?php foreach ($subcategorias as $subcategoria) { ?>
+                                        <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                        <?php if ($subcategorias) { ?>
+                                            <div class="card">
+                                                <div class="card-header"
+                                                     id="heading_<?php echo preg_replace('/\s+/', '_', $subcategoria->nombre_categoria); ?>">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left collapsed"
+                                                                type="button"
+                                                                data-toggle="collapse"
+                                                                data-target="#collapse_<?php echo preg_replace('/\s+/', '_', $subcategoria->nombre_categoria); ?>"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapse_<?php echo preg_replace('/\s+/', '_', $subcategoria->nombre_categoria); ?>">
+                                                            <?php echo $subcategoria->nombre_categoria; ?>
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse_<?php echo preg_replace('/\s+/', '_', $subcategoria->nombre_categoria); ?>"
+                                                     class="collapse"
+                                                     aria-labelledby="heading_<?php echo preg_replace('/\s+/', '_', $subcategoria->nombre_categoria); ?>"
+                                                     data-parent="#Sub_<?php echo preg_replace('/\s+/', '_', $categoria->nombre_categoria); ?>">
+                                                    <div class="card-body">
+
+                                                        <?php //print_contenido($subcategorias); ?>
+
+                                                        <ul class="list-group">
+                                                            <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                                <li class="list-group-item">
+                                                                    <a href="<?php echo base_url().'productos/categoria/'.$subcategoria->categoria_id;?>">
+                                                                    <?php echo $subcategoria->nombre_categoria; ?>
+                                                                    </a>
+
+                                                                    <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                                    <?php if ($subcategorias) { ?>
+                                                                        <ul class="list-group">
+                                                                            <?php foreach ($subcategorias as $subcategoria) { ?>
+                                                                                <li class="list-group-item">
+                                                                                    <a href="<?php echo base_url().'productos/categoria/'.$subcategoria->categoria_id;?>">
+                                                                                    <?php echo $subcategoria->nombre_categoria; ?>
+                                                                                    </a>
+                                                                                    <?php $subcategorias = obtener_subcategorias($subcategoria->categoria_id); ?>
+                                                                                    <?php print_contenido($subcategorias); ?>
+                                                                                </li>
+                                                                            <?php } ?>
+                                                                        </ul>
+                                                                    <?php } else { ?>
+
+                                                                    <?php } ?>
+                                                                </li>
+                                                            <?php } ?>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        <?php } else { ?>
+                                            <li class="list-group-item">
+                                                <a href="<?php echo base_url().'productos/categoria/'.$subcategoria->categoria_id;?>">
+                                                    <?php echo $subcategoria->nombre_categoria; ?>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+
+                                    <?php } ?>
+
+                                </div>
+                            <?php } else { // sin sib categorias ?>
+                                <li class="list-group-item">
+                                    <a href="<?php echo base_url().'productos/categoria/'.$categoria->categoria_id;?>">
+                                        <?php echo $categoria->nombre_categoria; ?>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+
+            <?php } ?>
+        <?php } ?>
+
+    </div>
+
+
+</div>
+
 <section id="main_body">
+
     <!-- Content Wrapper. Contains page content -->
     <?php echo $this->section('page_content') ?>
     <!-- /.content-wrapper -->
@@ -332,6 +451,17 @@ if ($CI->ion_auth->logged_in()) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main_body").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main_body").style.marginLeft = "0";
+    }
+</script>
 <?php echo $this->section('js_p') ?>
 </body>
 <!--<img src="<?php /*echo base_url(); */ ?>ui/imagenes/dise%f1o1.jpg">-->

@@ -14,6 +14,10 @@ if ($producto) {
     $producto = $producto->row();
 }
 
+if ($catgoria) {
+    $catgoria = $catgoria->row();
+}
+
 $ci =& get_instance();
 ?>
 
@@ -31,10 +35,7 @@ $ci =& get_instance();
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo base_url() ?>">Inicio</a></li>
                     <li class="breadcrumb-item"><a
-                                href="<?php echo base_url() . 'productos/categoria/' . $producto->producto_categoria ?>"><?php echo $producto->producto_categoria; ?></a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page"><a
-                                href="<?php echo base_url() . 'productos/sub_categoria/' . $producto->producto_categoria . '/' . $producto->producto_sub_categoria ?>"><?php echo $producto->producto_sub_categoria; ?></a>
+                                href="<?php echo base_url() . 'productos/categoria/' . $catgoria->categoria_id ?>"><?php echo $catgoria->nombre_categoria; ?></a>
                     </li>
                 </ol>
             </nav>
@@ -169,7 +170,10 @@ $ci =& get_instance();
                     <? } else { ?>
                         <h3>Producto no disponible</h3>
                     <? } ?>
-
+                    <hr>
+                    <?php if($producto){ ?>
+                    <a class="btn btn-success" href="<?php echo base_url().'productos/categoria/'.$producto->producto_categoria_sub_categoria;?>">Regresar</a>
+                    <? } ?>
                 </div>
             </div>
         </div>

@@ -98,6 +98,10 @@ class Admin extends Base_Controller
         $data['productos'] = $this->Productos_model->get_productos();
         echo $this->templates->render('admin/productos', $data);
     }
+    public function productos_inventario() {
+        $data['productos'] = $this->Productos_model->get_productos();
+        echo $this->templates->render('admin/productos_inventario', $data);
+    }
     public function crear_producto()
     {
         if (!$this->ion_auth->logged_in()) {
@@ -161,7 +165,7 @@ class Admin extends Base_Controller
         $data['producto_id'] = $producto_id;
         //datos de la propiedad
         $data['categorias'] = $this->Productos_model->get_categorias_n();
-        $data['producto'] = $this->Productos_model->get_info_producto($producto_id);
+        $data['producto'] = $this->Productos_model->get_info_producto_admin($producto_id);
 
         echo $this->templates->render('admin/editar_producto', $data);
     }

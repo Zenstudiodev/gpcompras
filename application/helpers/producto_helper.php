@@ -17,6 +17,17 @@ function obtener_subcategorias($categoria_id){
         return false;
     }
 }
+
+function get_categorias_sub_categorias(){
+    $ci =& get_instance();
+    $categorias = $ci->Productos_model->get_categorias_n();
+    if($categorias){
+        return $categorias->result();
+    }else{
+        return false;
+    }
+}
+
 function nombre_de_producto_por_codigo($producto_id){
     $ci =& get_instance();
     $datos_de_producto = $ci->Productos_model->get_info_producto($producto_id);
@@ -34,6 +45,18 @@ function sub_categorias_de_categoria($categoria){
         return false;
     }
 
+}
+function get_nombre_categoria($categoria){
+    $ci =& get_instance();
+    $sub_categorias = $ci->Productos_model->get_categoria_subcategoria_by_id($categoria);
+    if($sub_categorias){
+        $sub_categorias = $sub_categorias->row();
+       // print_contenido($sub_categorias);
+        return $sub_categorias->nombre_categoria;
+
+    }else{
+        return false;
+    }
 }
 function linea_tiene_icono($linea){
     $ci =& get_instance();

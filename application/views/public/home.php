@@ -15,55 +15,11 @@ $this->layout('public/public_master');
 <?php if (isset($header_banners)) { ?>
     <hr>
     <div class="container">
+
+
         <div class="row">
-            <div class="col-12 col-xl-3">
-                <h3 class="titulo_lineas">Categorías</h3>
-                <ul class="list-group">
-                    <?php
-                    if ($categorias) {
-                        foreach ($categorias->result() as $categoria) { ?>
 
-                            <li class="list-group-item  align-items-center">
-
-                                <?php $sub_catecorias = sub_categorias_de_categoria($categoria->producto_categoria);
-                                if ($sub_catecorias) {
-                                    ?>
-
-                                    <div class="dropdown">
-                                        <a class=" dropdown-toggle nombre_lineas_menu"
-                                           href="<?php echo base_url() . 'productos/sub_categoria/' . $categoria->producto_categoria ?>"
-                                           role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                           aria-haspopup="true"
-                                           aria-expanded="false">
-                                            <?php echo mb_strtolower($categoria->producto_categoria); ?>
-                                        </a>
-
-                                        <div class="dropdown-menu categorias_dropdown_container nombre_lineas_menu" aria-labelledby="dropdownMenuLink">
-                                            <?php foreach ($sub_catecorias as $sub_categoria) { ?>
-                                                <a class="dropdown-item" href="<?php echo base_url().'productos/listado_productos_categoria/'.$categoria->producto_categoria.'/'. $sub_categoria->producto_sub_categoria;?>">
-                                                    <?php echo mb_strtolower($sub_categoria->producto_sub_categoria); ?>
-                                                </a>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-
-                                <?php } else { ?>
-                                    <a href="<?php echo base_url() . 'index.php/productos/linea/' . $linea->producto_linea ?>">
-                                        <?php echo $linea->producto_linea; ?>
-                                    </a>
-                                <?php } ?>
-
-
-                                <!--<span class="badge badge-primary badge-pill">14</span>-->
-                            </li>
-                        <?php }
-                    }
-                    ?>
-
-                </ul>
-
-            </div>
-            <div class="col-12 col-xl-9" >
+            <div class="col-12 col-xl-12" >
                 <div id="banner_container">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">

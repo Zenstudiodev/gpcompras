@@ -18,11 +18,118 @@ h2#titulo_producto_list {
 }
 
 .product_card {
- margin-bottom: 15px;
+  margin-bottom: 15px;
   .image_list_holder {
     height: 200px;
     overflow: hidden;
   }
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+
+  a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    /*font-size: 25px;*/
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    &:hover {
+      color: #f1f1f1;
+    }
+  }
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+}
+
+
+
+.dropdown {
+  /* Border */
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+
+  /* Reset list styles */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown li {
+  /* Spacing */
+  padding: 8px;
+
+  /* Used to position the sub dropdown */
+  position: relative;
+}
+
+/* The sub dropdown */
+.dropdown ul {
+  /* Border */
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  /* Hidden by default */
+  display: none;
+
+  /* Absolute position */
+  left: 0;
+  position: absolute;
+  top: 100%;
+
+  /* Reset styles */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  /* Width */
+  width: 200px;
+}
+
+/* The second level sub dropdown */
+.dropdown ul ul {
+  left: 100%;
+  position: absolute;
+  top: 0;
+}
+
+/* Change background color of list item when being hovered */
+.dropdown li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Show the direct sub dropdown when hovering the list item */
+.dropdown li:hover > ul {
+  display: block;
+}
+
+#main_body {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+    a {
+      font-size: 18px;
+    }
+  }
+
 }
 
 // Extra small devices (portrait phones, less than 576px)
