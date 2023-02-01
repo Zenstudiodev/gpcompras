@@ -94,7 +94,7 @@ if ($producto) {
                 <button type="button" class="close" data-dismiss="alert"
                         aria-hidden="true">×
                 </button>
-                <h4><i class="fas fa-bell"></i> La propiedad que busca no existe</h4>
+                <h4><i class="fas fa-bell"></i> el producto que busca no existe</h4>
             </div>
         </div>
     <?php } ?>

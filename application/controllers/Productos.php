@@ -510,7 +510,7 @@ class Productos extends Base_Controller
     function borrar_producto()
     {
         $id_producto = $this->uri->segment(3);
-        $producto = $this->Productos_model->get_info_producto($id_producto);
+        $producto = $this->Productos_model->get_info_producto_admin($id_producto);
         $producto = $producto->row();
         //print_contenido($producto);
         $this->Productos_model->borrar_registro_producto($id_producto);
